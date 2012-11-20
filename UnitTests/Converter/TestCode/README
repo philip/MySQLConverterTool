@@ -1,0 +1,106 @@
+The "real-life" tests of the Converter tool look similar to the 
+PHP test framework. All tests are contained in this directory.
+
+A test file should have the name "<function_to_test>.php". The
+test framework will try to load the file and parse it. 
+
+Every test file must have the following structure:
+
+--TEST--
+--FILE--
+<?PHP
+?>
+--EXPECT-EXT/MYSQL-OUTPUT--
+--EXPECT-EXT/MYSQL-PHP-ERRORS--
+--EXPECT-EXT/MYSQLI-OUTPUT--
+--EXPECT-EXT/MYSQLI-PHP-ERRORS--
+--EXPECT-CONVERTER-ERRORS--
+--ENDOFTEST--
+
+If the test does not have exactly this structure the test
+framework with mark it as failed.
+
+Between '--TEST--' and '--FILE--' you specify a short name
+for the test. The name will be part of failure messages, 
+if the test fails. 
+
+'--TEST--', '--FILE--' and all other block seperators must be
+contained in their own lines. Just use the structure that is 
+shown above.
+
+PHP code that will be converted is expected between '--FILE--' and 
+'--EXPECT-EXT/MYSQL-OUTPUT--'. You may or may not add opening ('<?php') 
+and closing PHP tags '?>' to the PHP code. It's strongly recommended
+that you do it, but it's not a must. You should add it, because 
+this allows you to run the test file on the command line to check
+which output it generates.
+
+The output that the code is expected to generate when it's
+eval()'d inside a function of the test framework has to be put between 
+'--EXPECT-EXT/MYSQL-OUTPUT--' and '--EXPECT-EXT/MYSQL-PHP-ERRORS--'.
+
+The test framework tests if the output you have specified is 
+equal to the output that was recorded during the eval(). If it is 
+not equal the test framework assumes that something is wrong with the
+test or the eval() does not work as expected. Whatever the 
+reason is for the different output - a PHP error, problems with the 
+eval(), a mysql_connect() failure, ... -, the test will fail.
+
+Note that there is no need that the converted code produces the
+same output. The test framework will test the output of the converted
+code against the output you specified for the converted output
+but not against the output of the original version.
+
+If you expect the original test code to throw any PHP errors, they 
+must be listed between '--EXPECT-EXT/MYSQL-PHP-ERRORS--' and 
+'--EXPECT-EXT/MYSQLI-OUTPUT--'. Listing the errors makes sense, because 
+you might expect some code to fail - the converter is not perfect.
+Plus: some conversions can throw user errors, e.g. mysql_escape_string() 
+
+Before the PHP code of the test will be eval()'d, the error 
+reporting is set to:
+
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+
+The same is done for the converted code. We want to catch all
+errors -- even E_NOTICE. 
+
+If ou expect you original test code to throw a PHP error, you
+specify it like this:
+
+<lineno>, <error_type>, <prefix_of_error_you_expect>
+[...]
+
+For example '7, E_WARNING, mysql_connect()' if you expect a 
+mysql_connect() function to fail with some PHP error message like 
+'PHP Warning: mysql_connect(): message in <file> on line 7'.
+
+The test framework will take the original code, convert it to ext/mysqli 
+and run it. The output of the run is expected to be equal to the
+output documented between '--EXPECT-EXT/MYSQLI-OUTPUT--' and 
+'--EXPECT-EXT/MYSQLI-PHP-ERRORS--'.
+
+If you expect any PHP errors in the converted code -- I can't think
+of a situation when you really need that - put them between
+'--EXPECT-EXT/MYSQLI-PHP-ERRORS--' and '--EXPECT-CONVERTER-ERRORS--'.
+
+Sometimes the converter throws a warning, e.g. if you do 
+"mysql_connect($host)". In this case the converter cannot check if
+$host contains a port or socket specification using the currently 
+used, very simple static code analysis. The resulting mysqli_connect() 
+call might not work. The converter will continue to run, but 
+leave a warning for the line. A comma seperated list of all lines
+that should throw a converter warning can be specified between
+'--EXPECT-CONVERTER-ERRORS--' and '--ENDOFTEST--'. If you
+expect warnings for lines 11 and 23, put '11, 23' in here.
+
+There's a known limitation of the test file parser: the first occurrence
+of '--EXPECT-EXT/MYSQL-OUTPUT--' after '--FILE--' has been found will 
+will cause the parser to assume that this is the end of the PHP part.
+You must not have '--EXPECT-EXT/MYSQL-OUTPUT--' anywhere in your PHP
+code. No matter if it is inside an escaped string or a multiline 
+comment. The same is true for other blocks and their begin and end
+marker.
+
+That's it. Check the existings test cases for more hints.
