@@ -33,7 +33,7 @@ class MySQLConverterTool_Function_FieldName extends MySQLConverterTool_Function_
             
         list($res, $i) = $this->extractParamValues($params);
         
-        return array(NULL, sprintf('((($___mysqli_tmp = mysqli_fetch_field_direct(%s, %d)->name) && (!is_null($___mysqli_tmp))) ? $___mysqli_tmp : false)', $res, $i));
+        return array(NULL, sprintf('((($___mysqli_tmp = mysqli_fetch_field_direct(%s, %s)->name) && (!is_null($___mysqli_tmp))) ? $___mysqli_tmp : false)', $res, $i));
     }
     
     
