@@ -1,0 +1,153 @@
+<?php
+
+class dal {
+
+   private $myconnection;
+   
+   function __construct()
+   {$this->my_connection=mysql_connect("localhost","root","");}
+  
+
+    //selecção da BD
+    function db_select_db()
+	{
+        if (!mysql_select_db('ginasio',$this->my_connection))
+        {
+            die('Could not select BD: ' . mysql_error());
+        }    
+    }  
+     
+	 //para fazer o login dos diferentes utilizadores
+    function login($tabela, $username, $password) 
+	{
+   
+        $sqlQuery = "SELECT * From $tabela WHERE username='$username' and password='$password'";
+        $recordset = mysql_query($sqlQuery, $this->my_connection);
+        return $recordset;
+    }
+	
+	// getall retorna recordset de select * de $tablename
+    function getAll($tabela) {
+   
+        $sqlQuery = "select * From $tabela";
+        $recordset = mysql_query($sqlQuery, $this->my_connection);
+        return $recordset;
+    }
+	
+	
+	//retirei daqui algumas funções que estão na dal do outro trabalho!!! 
+	
+	function inserirSugestao($sugestoes, $de, $para, $assunto, $mensagem) 
+	{
+
+        $sql="insert into $sugestoes (de, para, assunto, mensagem) VALUES('$de', '$para', '$assunto', '$mensagem')";
+
+        if (!mysql_query($sql,$this->my_connection))
+        {
+            return 0;
+        } else {
+            return 1;
+			//echo "inseriu";
+		}
+	}
+	
+	
+	
+	function consultas_cliente( $tablename2, $id_consulta, $id_cliente) 
+	{
+
+        $sql="INSERT INTO $tablename2 (id_consulta, id_cliente) VALUES('$id_consulta', '$id_cliente')";
+echo $sql; 
+        if (!mysql_query($sql,$this->my_connection))
+        {
+            return 0;
+        } else {
+            return 1;
+			//echo "inseriu";
+		}
+	}
+	
+	function inserirExames($tablename, $id_exames, $id_cliente, $id_peso, $id_altura, $id_imc, $id_ritmocardiaco, $id_frequencia, $id_velocidade, $id_tempo) 
+	{
+        $sql="insert into $tablename (id_exames, id_cliente, id_peso, id_altura, id_imc, id_ritmocardiaco, id_frequencia, id_velocidade, id_tempo) VALUES('$id_exames', '$id_cliente', '$id_peso', '$id_altura', '$id_imc', '$id_ritmocardiaco', '$id_frequencia', '$id_velocidade', '$id_tempo')";
+
+        if (!mysql_query($sql,$this->my_connection))
+        {
+            return 0;
+        } else {
+            return 1;
+			//echo "inseriu";
+		}
+	}
+	
+	
+		
+function inserirObjetivos($objetivos, $peso, $massa_muscular, $ritmo_cardiaco, $f_respiratoria) 
+	{
+
+        $sql="insert into $objetivos (peso, massa_muscular, ritmo_cardiaco, f_respiratoria) VALUES('$peso', '$massa_muscular', '$ritmo_cardiaco', '$f_respiratoria')";
+
+        if (!mysql_query($sql,$this->my_connection))
+        {
+            return 0;
+        } else {
+            return 1;
+			//echo "inseriu";
+		}
+	}
+
+	function inserirPlano($plano, $corrida, $bicicleta, $m_pernas, $m_costas, $m_abdominal, $m_tricipe, $t_abdominal, $t_pesos, $alongamentos, $s_m_pernas, $s_m_costas, $s_m_abdominal, $s_m_tricipe, $s_t_abdominal, $s_t_pesos) 
+	{
+
+        $sql="insert into $plano (corrida, bicicleta, m_pernas, m_costas, m_abdominal, m_tricipe, t_abdominal, t_pesos, alongamentos, s_m_pernas, s_m_costas, s_m_abdominal, s_m_tricipe, s_t_abdominal, s_t_pesos) VALUES('$corrida', '$bicicleta', '$m_pernas', '$m_costas', '$m_abdominal', '$m_tricipe', '$t_abdominal', '$t_pesos', '$alongamentos', '$s_m_pernas', '$s_m_costas', '$s_m_abdominal', '$s_m_tricipe', '$s_t_abdominal', '$s_t_pesos')";
+
+        if (!mysql_query($sql,$this->my_connection))
+        {
+            return 0;
+        } else {
+            return 1;
+			//echo "inseriu";
+		}
+	}
+
+	
+	function inserirCliente($tablename, $nome_cliente, $id_cliente, $data_nascimento, $morada, $bi, $sexo, $codigo_postal, $telemovel, $email, $username, $password) 
+	{
+
+        $sql="INSERT INTO $tablename (nome_cliente, id_cliente, data_nascimento, morada, bi, sexo, codigo_postal, telemovel, email, username, password) VALUES('$nome_cliente', '$id_cliente', '$data_nascimento', '$morada', '$bi', '$sexo', '$codigo_postal', '$telemovel','$email', '$username', '$password')";
+echo $sql; 
+        if (!mysql_query($sql,$this->my_connection))
+        {
+            return 0;
+        } else {
+            return 1;
+			//echo "inseriu";
+		}
+	}
+	
+		function inserirTreinador($treinadores, $nome_treinador, $id_treinador, $username, $password) 
+	{ 
+
+        $sql="insert into $treinadores (nome_treinador, id_treinador, username, password) VALUES('$nome_treinador', '$id_treinador', '$username', '$password')";
+
+        if (!mysql_query($sql,$this->my_connection))
+        {
+            return 0;
+        } else {
+            return 1;
+			//echo "inseriu";
+		}
+	}
+	
+
+      
+    // close da ligação a BD
+    function db_close(){
+	
+	if(!mysql_close($this->my_connection)) {
+            die('Could not close BD:');
+        }
+    } 
+}
+
+?>
