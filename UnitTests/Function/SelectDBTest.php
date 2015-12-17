@@ -50,7 +50,7 @@ class MySQLConverterTool_UnitTests_Function_SelectDBTest extends MySQLConverterT
         list($warning, $code) = $this->gen->handle($this->buildParams(array('$<database_name>')));
         $this->assertNotNull($warning);
         $this->assertEquals(
-            sprintf('((bool)%s(%s, "USE $<database_name>"))', $this->gen->new_name, $this->default_conn),
+            sprintf('((bool)%s(%s, "USE " . $<database_name>))', $this->gen->new_name, $this->default_conn),
             $code
         );
         
@@ -66,7 +66,7 @@ class MySQLConverterTool_UnitTests_Function_SelectDBTest extends MySQLConverterT
         list($warning, $code) = $this->gen->handle($this->buildParams(array('"<database_name>"', '<link_identifier>')));
         $this->assertNotNull($warning);
         $this->assertEquals(
-            sprintf('((bool)%s(<link_identifier>, "USE <database_name>"))', $this->gen->new_name),
+            sprintf('((bool)%s(<link_identifier>, "USE " . <database_name>))', $this->gen->new_name),
             $code
         );
                 
