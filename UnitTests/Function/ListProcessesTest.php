@@ -22,8 +22,7 @@ class MySQLConverterTool_UnitTests_Function_ListProcessesTest extends MySQLConve
 
     
     public static function main() {
-        require_once "PHPUnit/TextUI/TestRunner.php";
-
+        
         $suite  = new PHPUnit_Framework_TestSuite("MySQLConverterTool_UnitTests_Function_ListProcessesTest");
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }

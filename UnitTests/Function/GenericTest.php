@@ -3,7 +3,6 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "MySQLConverterTool_Function_GenericTest::main");
 }
 
-require_once "PHPUnit/Framework/TestCase.php";
 require_once "MySQLConverterTool/Function/Generic.php";
 
 /**
@@ -24,8 +23,7 @@ class MySQLConverterTool_UnitTests_Function_GenericTest extends PHPUnit_Framewor
     protected $gen = null;
     
     public static function main() {
-        require_once "PHPUnit/TextUI/TestRunner.php";
-
+        
         $suite  = new PHPUnit_Framework_TestSuite("MySQLConverterTool_Function_GenericTest");
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }

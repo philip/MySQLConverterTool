@@ -3,8 +3,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'MySQLConverterTool_UnitTests_Function_AllTests::main');
 }
 
-require_once('PHPUnit/Framework/TestSuite.php');
-require_once('PHPUnit/TextUI/TestRunner.php');
 
 require_once('ChangeUserTest.php');
 require_once('ConnectTest.php');

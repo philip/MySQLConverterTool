@@ -21,8 +21,7 @@ require_once "MySQLConverterTool/Function/ConnParamBool.php";
 class MySQLConverterTool_UnitTests_Function_ConnParamBoolTest extends MySQLConverterTool_UnitTests_Function_GenericTest {
 
     public static function main() {
-        require_once "PHPUnit/TextUI/TestRunner.php";
-
+        
         $suite  = new PHPUnit_Framework_TestSuite("MySQLConverterTool_UnitTests_Function_ConnParamBoolTest");
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }

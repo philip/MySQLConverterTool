@@ -4,8 +4,6 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "MySQLConverterTool_FieldFlagsTest::main");
 }
 
-require_once "PHPUnit/Framework/TestCase.php";
-require_once "PHPUnit/Framework/TestSuite.php";
 require_once "MySQLConverterTool/Converter.php";
 require_once "MySQLConverterTool/UnitTests/Converter/ConverterTest.php";
 

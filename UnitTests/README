@@ -8,7 +8,7 @@ Download PHPUnit 2.3+ from its new home on http://www.phpunit.de!
 The converter tool uses PHPUnit for its tests. Two types of tests are
 implemented:
 
- a) classiscal unit tests
+ a) classical unit tests
  b) "real-life" examples
  
  The classical unit tests are contained in the folder UnitTests/Function/. 
@@ -33,18 +33,18 @@ implemented:
  which mysql_*->mysqli_ transformation callback function is responsible for
  the conversion. There's a list of all function mappings in the file
  Converter.php. Once you know which transformation function gets used, 
- open the  correspondending test class in UnitTests/Converter/, e.g.
+ open the  corresponding test class in UnitTests/Converter/, e.g.
  UnitTests/Converter/DropDBTest for mysql_drop_db. Add a new file to 
  the list of files in the $files array and implement your new test.
   
 +++ Running the tests +++
 
 The preferred way to run the tests is to call UnitTests/AllTests.php.
-It's assumed that you have the PHPUnit installation path in your include
-directory. It's also assumed that you are one level above the installation
+It's assumed that you have the phpunit in your PATH.
+It's also assumed that you are one level above the installation
 directory of the converter tool when you call:
 
-php MyConverterTool/UnitTests/AllTests.php
+  shell> phpunit MyConverterTool/UnitTests/AllTests.php
 
 Before you run the "real-life" tests, you must set up a test database and 
 adapt the configuration file UnitTests/Converter/TestCode/config.php. 
