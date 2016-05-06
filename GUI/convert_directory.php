@@ -41,6 +41,11 @@ if (empty($_POST) || !isset($_POST['start'])) {
     
     require_once('../Converter.php');
     $conv = new MySQLConverterTool_Converter();
+
+    if (!empty($_POST['skip_pattern'])) {
+        $conv->skip_pattern = trim($_POST['skip_pattern']);
+    }
+
     $files = $conv->getFilesOfDirectory($_POST['directory'], $_POST['pattern']);
     
     if (empty($files)) {

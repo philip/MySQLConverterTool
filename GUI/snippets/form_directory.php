@@ -83,6 +83,17 @@ if (!empty($snippet_errors)) {
             </td>
         <tr>
         <tr>
+            <td class="formlabel">Skip pattern</td>
+            <td class="formelement"><input type="text" name="skip_pattern" size="60" value="<?php print (isset($_POST['skip_pattern'])) ? $_POST['skip_pattern'] : ''; ?>" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="formhint">
+                Enter . to skip files/directories that begin with ., or a full match pattern passed directly to preg_match (so include delimiters)<br />
+                -- leave empty (the default) to not perform this skip pattern.
+            </td>
+        <tr>
+        <tr>
             <td class="<?php print (isset($snippet_errors['update'])) ? 'formlabelerror' : 'formlabel'; ?>">Update&nbsp;files?</td>
             <td class="formelement">
                 <input type="radio" name="update" id="update" value="no" onClick="activate_backup()" <?php print (isset($_POST['update']) && $_POST['update'] != 'no') ? '' : 'checked'; ?>> No<br />

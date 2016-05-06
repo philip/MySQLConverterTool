@@ -178,7 +178,15 @@ class MySQLConverterTool_Converter {
     // public
     //
 
-    
+    /**
+    * File pattern to skip when scanning a directory
+    * Pass in . to skip files that begin with ., or a full pattern 
+    * for preg_match including delimiters 
+    *
+    * @var  string
+    */
+    public $skip_pattern = false;
+
     /**
     *
     *
@@ -357,19 +365,31 @@ class MySQLConverterTool_Converter {
         
         if (!is_dir($dir) || !is_readable($dir))
             return $files;
-            
+
         $patterns = $this->buildRegularExpression($file_pattern);              
         if (empty($patterns))
             return $files;
-            
+
         $dh = opendir($dir);
         if (!$dh)
             return $files;
-            
-        while ($file = readdir($dh)) {
-            if ('.' == $file || '..' == $file)
-                continue;
 
+        while ($file = readdir($dh)) {
+            $file = trim($file);
+            if ('.' == $file || '..' == $file) {
+                continue;
+            }
+            if ($this->skip_pattern !== false) {
+                if ($this->skip_pattern === '.') {
+                    if ($file{0} === '.') {
+                        continue;
+                    }
+                } else {
+                    if (preg_match($this->skip_pattern, $file)) {
+                        continue;
+                    }
+                }
+            }
             $ffile = $dir . '/' . $file;                
             if (is_dir($ffile))
                 $files = $this->getFilesOfDirectory($ffile, $file_pattern, $files);
