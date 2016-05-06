@@ -16,7 +16,7 @@ DROP DATABASE _conv_test;
 DROP USER '_conv_root';
 */
 
-$host           = 'localhost';
+$host           = '127.0.0.1';
 
 $user           = '_conv_root';
 $pass           = '_conv_root';
