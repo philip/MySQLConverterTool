@@ -26,22 +26,15 @@ class MySQLConverterTool_Function_Error extends MySQLConverterTool_Function_Gene
 
         @list($conn) = $this->extractParamValues($params);
         if (is_null($conn)) {
-            $warning = 'mysql_error()/mysql_errno() can be called without a connection handle, mysqli_error()/mysqli_errno() not. As we do not know if a default connection has been opened, we have wrapped the function call in ((<if_default_conn_is_object>) ? mysqli_<func>(<default_conn>) : mysqli_connect_error()/mysqli_connect_errno()). This is not 100% the same as the original code in all cases. Check the generated code!';
             $conn = $this->ston_name;
-        } else {
-            $warning = null;
         }
-        if ('mysqli_error' == $this->new_name) {
-            $ret = sprintf('((is_object(%s)) ? %s(%s) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))', $conn, $this->new_name, $conn);
-        } else {
-            $ret = sprintf('((is_object(%s)) ? %s(%s) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))', $conn, $this->new_name, $conn);
-        }
-
-        return array($warning, $ret);
+        
+        return array(null, sprintf('%s(%s)', $this->new_name, $conn));       
     }
-
+  
     public function getConversionHint()
     {
-        return 'mysql_error()/mysql_errno() do not require a connection handle. When using the default connection for mysqli_error()/mysqli_errno() we throw a warning. We do not know for sure if a connection exists and add some extra code for the case it does not exist.';
+        
+        return 'mysql_error()/mysql_errno() do not require a connection handle. A default connection has to be made before. ';
     }
 }
