@@ -353,7 +353,19 @@ class MySQLConverterTool_Converter {
             return $ret;
         }            
             
-        return $this->convertString(file_get_contents($filename));      
+        // Convert all uppercase and mixed case names to lowercase
+        // like MYSQL_RESULT => mysql_result
+        // But this can be dangerous because of possible unwanted constants conversions
+        // To be safe we convert only supported names
+        $list = array_map(array_keys($this->mysql_funcs), 
+                    function ($val) { return '/\b' . $val . '\b/i';});
+                    
+        $code = preg_replace_callback($list,
+            function ($match){
+                return strtolower($match[0]);
+            }, file_get_contents($filename));
+            
+        return $this->convertString($code);      
     }
     
     
