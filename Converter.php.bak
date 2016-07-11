@@ -299,7 +299,6 @@ class MySQLConverterTool_Converter {
                 // PHP_FALIAS(mysql_selectdb,		mysql_select_db,	NULL)
                 'mysql_selectdb'            => new MySQLConverterTool_Function_SelectDB(), 
                 'mysql_select_db'           => new MySQLConverterTool_Function_SelectDB(), 
-                'mysql_set_charset'         => new MySQLConverterTool_Function_SetCharset(), 
                 'mysql_stat'                => new MySQLConverterTool_Function_ConnParam('mysqli_stat'),
                 'mysql_tablename'           => new MySQLConverterTool_Function_Tablename(),
                 'mysql_table_name'          => new MySQLConverterTool_Function_Tablename(),
