@@ -2,15 +2,12 @@
 require_once('Generic.php');
 
 /**
-* Converter: mysql_select_db
+* Converter: mysql_set_charset
 *
 * @category   Functions
 * @package    MySQLConverterTool
 * @author     Nokim <nokim@ukr.net>
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    CVS: $Id:$, Release: @package_version@
-* @link       http://www.mysql.com
-* @since      Class available since Release 1.0
 */
 class MySQLConverterTool_Function_SetCharset extends MySQLConverterTool_Function_Generic {
   
