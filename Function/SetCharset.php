@@ -38,7 +38,7 @@ class MySQLConverterTool_Function_SetCharset extends MySQLConverterTool_Function
         if ('const' == $charset_type) {
             $ret = sprintf('((bool)mysqli_set_charset(%s, constant(\'%s\')))', $conn, $charset);
         } else {
-            $ret = sprintf('((bool)mysqli_set_charset(%s, %s))', $conn, $charset);
+            $ret = sprintf('((bool)mysqli_set_charset(%s, "%s"))', $conn, $charset);
         }
         
         return array(null, $ret);

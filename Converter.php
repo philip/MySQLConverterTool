@@ -24,6 +24,7 @@ require_once('Function/ListTables.php');
 require_once('Function/ParReversed.php');
 require_once('Function/RealEscapeString.php');
 require_once('Function/SelectDB.php');
+require_once('Function/SetCharset.php');
 require_once('Function/Tablename.php');
 require_once('Function/UnbufferedQuery.php');
 
@@ -357,8 +358,8 @@ class MySQLConverterTool_Converter {
         // like MYSQL_RESULT => mysql_result
         // But this can be dangerous because of possible unwanted constants conversions
         // To be safe we convert only supported names
-        $list = array_map(array_keys($this->mysql_funcs), 
-                    function ($val) { return '/\b' . $val . '\b/i';});
+        $list = array_map(function ($val) { return '/\b' . $val . '\b/i';},
+                          array_keys($this->mysql_funcs));
                     
         $code = preg_replace_callback($list,
             function ($match){
