@@ -26,31 +26,21 @@
         $class = 'conversionerror';
     }    
     ?>
-    <table class="conversionheadline">
-    <tr>
-        <td><?php printf('<span class="%s" onclick=\'toggle_view("%s")\'>%s</span>', $class, $id_summary, ($snippet_show_details) ? '+' : '+'); ?></td>
-        <td align="right">
-            <?php        
-            printf('<span class="%s">%s</span>', $class, $title);
-            ?>                      
-        </td>
-        <td width="99%">
-            <span class="<?php print $class; ?>">Snippet</span>
-        </td>
-    </tr>
-    </table>
-    <div class="conversiondetails" id="<?php print $id_summary; ?>"  <?php if ($snippet_show_details) print 'style="display:inline"'; ?>>
-    <h3 style="margin-left:1em">Summary</h3>
+    <div class="conversionheadline <?php print $class; ?>" onclick='<?php printf('toggle_view("%s")', $id_summary); ?>'>
+        +
+        <?php print $title; ?>
+        <?php printf('Snippet (%s/%s, %s)', $snippet_conv['converted'], $snippet_conv['found'], count($snippet_conv['errors'])); ?>
+    </div>
+    <div class="conversiondetails" id="<?php print $id_summary; ?>" <?php if (!$snippet_show_details) print 'style="display:none"'; ?>>
+    <h3>Summary</h3>
     <table cellpadding="0" cellspacing="0" class="conversiondetailstable">
     <tr>
-        <th align="right">Found&nbsp;equals&nbsp;Converted?</th>
         <th align="right">Found</th>
         <th align="right">Converted</th>        
         <th align="right">Warnings/Errors</th>        
         <th align="right" width="99%">Length</th>
     </tr>
     <tr>
-        <td align="right"><?php print ($snippet_conv['found'] == $snippet_conv['converted']) ? 'Yes' : 'No'; ?></td>
         <td align="right"><?php print $snippet_conv['found']; ?></td>
         <td align="right"><?php print $snippet_conv['converted']; ?></td>
         <td align="right"><?php print count($snippet_conv['errors']); ?></td>
@@ -58,7 +48,7 @@
     </tr>    
     </table>   
     <?php if (!empty($snippet_conv['errors'])) { ?>
-    <h3 style="margin-left:1em">Warnings/Errors</h3>
+    <h3>Warnings/Errors</h3>
     <table cellpadding="0" cellspacing="0" class="conversiondetailstable">    
     <tr>
         <th>Line</td>
@@ -76,12 +66,28 @@
     ?>
     </table>
     <?php } ?>
-    <h3 style="margin-left:1em">Generated Code</h3>
+    <h3>Generated Code</h3>
     <table cellpadding="0" cellspacing="0" class="conversiondetailstable">    
+    <?PHP
+    $highlighted_code = highlight_string($snippet_conv['output'], true);
+    ?>
     <tr>
-        <td style="padding:0.25em"><?php highlight_string($snippet_conv['output']) ?></td>
+        <td style="padding:0.25em">
+        <?PHP
+        $highlighted_code = highlight_string($snippet_conv['output'], true);
+        $code_lines = preg_split('@<br\s*/?>@', $highlighted_code);
+        if (count($code_lines) >= 3) {
+            print str_replace('<code>', '<code><span style="color:black; white-space:pre">    1. </span>', $code_lines[0]);
+            print '<br />';
+            for ($line_num = 1; $line_num < count($code_lines); $line_num++) {
+                printf('<span style="color:black; white-space:pre">%5d. </span> %s<br />', $line_num + 1, $code_lines[$line_num]);
+            }
+        } else { // In case the highlight_string function does not use <br />
+            print $highlighted_code;
+        }
+        ?>
+        </td>
     </tr>
     </table>
-    <br />&nbsp;
     </div>
 </div>

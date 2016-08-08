@@ -23,10 +23,10 @@
             if (!(el = document.getElementById(id)))
                 return;
             
-            if (el.style.display == 'inline') {                               
-                el.style.display = 'none';                     
+            if (el.style.display == 'none') {                               
+                el.style.display = '';
             } else {
-                el.style.display = 'inline';                
+                el.style.display = 'none';
             }
             
         }

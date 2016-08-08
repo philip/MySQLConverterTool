@@ -51,12 +51,12 @@ legend {
 }
 
 .conversionheadline {
+    padding:2px;
     background-color:#006486;
-    width:100%
+    cursor:pointer;
 }
 
 .conversiondetails {
-    display:none;
     padding:1em;
 }
 
@@ -70,8 +70,6 @@ legend {
 
 .conversiondetailstable {
 
-    margin-left:1em;
-    margin-right:1em;
     padding:0px;
 
     border-top-width:1px;

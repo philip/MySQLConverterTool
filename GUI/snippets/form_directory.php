@@ -103,7 +103,7 @@ if (!empty($snippet_errors)) {
         <tr>
             <td class="<?php print (isset($snippet_errors['backup'])) ? 'formlabelerror' : 'formlabel'; ?>">Backup files?</td>
             <td class="formelement">
-                <input type="checkbox" name="backup" id="backup" <?php print (isset($_POST['backup'])) ? 'checked' : ''; ?>> Yes, backup the originial files to &lt;name.org&gt;              
+                <input type="checkbox" name="backup" id="backup" <?php print (isset($_POST['backup'])) ? 'checked' : ''; ?>> Yes, backup the original files to &lt;name.org&gt;              
             </td>
         <tr>
         <tr>
