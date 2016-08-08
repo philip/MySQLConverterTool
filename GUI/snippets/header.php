@@ -30,6 +30,17 @@
             }
             
         }
+        function toggle_view_class(className) {
+            var elems = document.getElementsByClassName(className);
+            for (var i in elems) {
+                var el = elems[i];
+                if (el.style.display == 'none') {
+                    el.style.display = '';
+                } else {
+                    el.style.display = 'none';
+                }
+            }
+        }
     </script>       
 </head>
 <body>

@@ -60,6 +60,11 @@ legend {
     padding:1em;
 }
 
+.conversionlinenumbers {
+    color:black;
+    white-space:pre;
+}
+
 .tddark {
     background-color:#f6f6f6;
 }

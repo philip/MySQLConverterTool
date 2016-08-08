@@ -67,6 +67,7 @@
     </table>
     <?php } ?>
     <h3>Generated Code</h3>
+    <p style="color:blue; cursor:pointer" onclick="toggle_view_class('conversionlinenumbers')">Toggle line numbers</p>
     <table cellpadding="0" cellspacing="0" class="conversiondetailstable">    
     <?PHP
     $highlighted_code = highlight_string($snippet_conv['output'], true);
@@ -77,10 +78,10 @@
         $highlighted_code = highlight_string($snippet_conv['output'], true);
         $code_lines = preg_split('@<br\s*/?>@', $highlighted_code);
         if (count($code_lines) >= 3) {
-            print str_replace('<code>', '<code><span style="color:black; white-space:pre">    1. </span>', $code_lines[0]);
+            print str_replace('<code>', '<code><span class="conversionlinenumbers">    1. </span>', $code_lines[0]);
             print '<br />';
             for ($line_num = 1; $line_num < count($code_lines); $line_num++) {
-                printf('<span style="color:black; white-space:pre">%5d. </span> %s<br />', $line_num + 1, $code_lines[$line_num]);
+                printf('<span class="conversionlinenumbers">%5d. </span> %s<br />', $line_num + 1, $code_lines[$line_num]);
             }
         } else { // In case the highlight_string function does not use <br />
             print $highlighted_code;
