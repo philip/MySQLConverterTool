@@ -13,7 +13,7 @@ $ unzip master.zip
 $ cd MySQLConverterTool-master/GUI
 $ php -S localhost:8000
 ```
-Then, go to `http://localhost:8000`
+Then, go to `http://localhost:8000`. From there you can choose to convert a snippet (copy-n-paste), a single file, or a directory. You can choose to convert the files themselves (assuming the web server has rights), make backups, or simply output the code to your browser.
 
 ### Use CLI
 Download as you did above, and here is an example to convert a file named `/tmp/my.php`
