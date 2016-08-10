@@ -319,6 +319,7 @@ class MySQLConverterTool_Converter {
     * @return   array   Converted source code and status information
     */
     public function convertString($source) {
+        $source = $this->lowerCaseMysqlFunctions($source);
   
         $this->lineno   = 0;
         $this->output   = '';        
@@ -353,7 +354,21 @@ class MySQLConverterTool_Converter {
             $ret['errors'][] = array('line' => -1, 'msg' => 'Cannot open file "' . $filename . '".');
             return $ret;
         }            
-            
+
+        $c = file_get_contents($filename);
+
+        $code = $this->lowerCaseMysqlFunctions($c);
+
+        return $this->convertString($code);
+    }
+
+    /**
+    * Convert MySQL functions to lowercase.
+    *
+    * @param string source
+    */
+    public function lowerCaseMysqlFunctions($source) {
+
         // Convert all uppercase and mixed case names to lowercase
         // like MYSQL_RESULT => mysql_result
         // But this can be dangerous because of possible unwanted constants conversions
@@ -364,9 +379,9 @@ class MySQLConverterTool_Converter {
         $code = preg_replace_callback($list,
             function ($match){
                 return strtolower($match[0]);
-            }, file_get_contents($filename));
+            }, $source);
             
-        return $this->convertString($code);      
+        return $code;
     }
     
     
