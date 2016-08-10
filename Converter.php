@@ -23,6 +23,7 @@ require_once('Function/ListProcesses.php');
 require_once('Function/ListTables.php');
 require_once('Function/ParReversed.php');
 require_once('Function/RealEscapeString.php');
+require_once('Function/Result.php');
 require_once('Function/SelectDB.php');
 require_once('Function/SetCharset.php');
 require_once('Function/Tablename.php');
@@ -135,7 +136,7 @@ class MySQLConverterTool_Converter {
     */
     protected $mysql_funcs_not_supported = array(
             // rewrite the ugly mysql_result calls manually!
-            'mysql_result'          => true,
+            // 'mysql_result'          => true,
             // whatever that function is...
             'mysql_fetch_field2'    => true,    
         );
@@ -297,6 +298,7 @@ class MySQLConverterTool_Converter {
                 'mysql_query'               => new MySQLConverterTool_Function_ParReversed('mysqli_query'),
                 'mysql_real_escape_string'  => new MySQLConverterTool_Function_RealEscapeString('mysqli_real_escape_string'),
                 // mysql_result -- Get result data
+                'mysql_result'              => new MySQLConverterTool_Function_Result(), 
                 // PHP_FALIAS(mysql_selectdb,		mysql_select_db,	NULL)
                 'mysql_selectdb'            => new MySQLConverterTool_Function_SelectDB(), 
                 'mysql_select_db'           => new MySQLConverterTool_Function_SelectDB(), 
