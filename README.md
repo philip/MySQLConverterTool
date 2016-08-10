@@ -1,18 +1,27 @@
-  Welcome to the MySQL ext/mysql->ext/mysqli Converter Tool.
-  This tool helps you to migrate PHP files using the PHP
-  MySQL extension to use the MySQLi extension.
-  
-  Extract the archive into a directory on your web server. Open 
-  http://<yourwebserver>/<yourpath>/MySQLConverterTool/GUI/index.php
-  for a Web GUI. If you want to work on the command line, try
-  php -f cli.php.
-  
-  Note that absolutely no security checks are performed
-  by the tool which prevent users from trying to read and convert
-  files (e.g. /etc/passwd). Make sure to add security measures,
-  if needed.
-  
-  If you want to run any tests, check the hints given 
-  in UnitTests/README.
-  
-  Have fun!
+# Introduction
+This tool converts the deprecated (and removed as of PHP 7) ext/mysql extension into code using the newer (and fully supported) ext/mysqli extension.
+
+This tool is not perfect, but it will help you with the conversion.
+
+# Usage
+There are two interfaces: GUI and CLI. Example usages:
+
+### Using PHP's built-in web server
+```
+$ wget https://github.com/philip/MySQLConverterTool/archive/master.zip
+$ unzip master.zip
+$ cd MySQLConverterTool-master/GUI
+$ php -S localhost:8000
+```
+Then, go to http://localhost:8000
+
+### Use CLI
+Download as you did above, but use php -f cli.php
+
+# Important Warning
+That absolutely NO security checks are performed by the tool which prevent users from trying to read and convert files (e.g. /etc/passwd). Make sure to add security measures, if needed.
+
+# Other  
+If you want to run any tests, check the hints given in UnitTests/README. Also, report bugs and feature requests here.
+
+Have fun!
