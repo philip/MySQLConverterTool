@@ -13,15 +13,20 @@ $ unzip master.zip
 $ cd MySQLConverterTool-master/GUI
 $ php -S localhost:8000
 ```
-Then, go to http://localhost:8000
+Then, go to `http://localhost:8000`
 
 ### Use CLI
-Download as you did above, but use php -f cli.php
+Download as you did above, and here is an example to convert a file named `/tmp/my.php`
+```
+$ cd MySQLConverterTool-master
+$ php cli.php -f /tmp/my.php
+```
+Execute `php cli.php -h` to see the available options.
 
 # Important Warning
-That absolutely NO security checks are performed by the tool which prevent users from trying to read and convert files (e.g. /etc/passwd). Make sure to add security measures, if needed.
+That absolutely NO security checks are performed by the tool which prevent users from trying to read and convert files (e.g. `/etc/passwd`). Make sure to add security measures, if needed.
 
 # Other  
-If you want to run any tests, check the hints given in UnitTests/README. Also, report bugs and feature requests here.
+If you want to run any tests, check the hints given in `UnitTests/README`. Also, report bugs and feature requests here.
 
 Have fun!
