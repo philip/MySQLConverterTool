@@ -399,7 +399,7 @@ class MySQLConverterTool_Converter {
                         continue;
                     }
                 } else {
-                    if (preg_match($this->skip_pattern, $file)) {
+                    if (preg_match('@' . $this->skip_pattern . '@', $file)) {
                         continue;
                     }
                 }
