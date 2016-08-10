@@ -80,7 +80,7 @@ if (!empty($snippet_errors)) {
         <tr>
             <td class="<?php print (isset($snippet_errors['backup'])) ? 'formlabelerror' : 'formlabel'; ?>">Backup file?</td>
             <td class="formelement">
-                <input type="checkbox" name="backup" id="backup" <?php print (isset($_POST['backup'])) ? 'checked' : ''; ?>> Yes, backup the originial file to &lt;name.org&gt;              
+                <input type="checkbox" name="backup" id="backup" <?php print (isset($_POST['backup'])) ? 'checked' : ''; ?>> Yes, backup the original file to &lt;name.org&gt;              
             </td>
         <tr>
         <tr>
