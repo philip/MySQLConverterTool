@@ -24,6 +24,7 @@ require_once('Function/ListTables.php');
 require_once('Function/ParReversed.php');
 require_once('Function/RealEscapeString.php');
 require_once('Function/SelectDB.php');
+require_once('Function/SetCharset.php');
 require_once('Function/Tablename.php');
 require_once('Function/UnbufferedQuery.php');
 
@@ -299,6 +300,7 @@ class MySQLConverterTool_Converter {
                 // PHP_FALIAS(mysql_selectdb,		mysql_select_db,	NULL)
                 'mysql_selectdb'            => new MySQLConverterTool_Function_SelectDB(), 
                 'mysql_select_db'           => new MySQLConverterTool_Function_SelectDB(), 
+                'mysql_set_charset'         => new MySQLConverterTool_Function_SetCharset(), 
                 'mysql_stat'                => new MySQLConverterTool_Function_ConnParam('mysqli_stat'),
                 'mysql_tablename'           => new MySQLConverterTool_Function_Tablename(),
                 'mysql_table_name'          => new MySQLConverterTool_Function_Tablename(),
@@ -352,7 +354,19 @@ class MySQLConverterTool_Converter {
             return $ret;
         }            
             
-        return $this->convertString(file_get_contents($filename));      
+        // Convert all uppercase and mixed case names to lowercase
+        // like MYSQL_RESULT => mysql_result
+        // But this can be dangerous because of possible unwanted constants conversions
+        // To be safe we convert only supported names
+        $list = array_map(function ($val) { return '/\b' . $val . '\b/i';},
+                          array_keys($this->mysql_funcs));
+                    
+        $code = preg_replace_callback($list,
+            function ($match){
+                return strtolower($match[0]);
+            }, file_get_contents($filename));
+            
+        return $this->convertString($code);      
     }
     
     
