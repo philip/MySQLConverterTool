@@ -21,30 +21,34 @@ Return Values
 
 Returns the error text from the last MySQL function, or '' (empty string) if no error occurred. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
 $error = mysql_error($con);
-if (!is_string($error))
-    printf("FAILURE: expecting string value, using regular connection, got %s\n", gettype($error));    
-    
+if (!is_string($error)) {
+    printf("FAILURE: expecting string value, using regular connection, got %s\n", gettype($error));
+}
+
 // should throw a warning    
 $error = mysql_error();
-if (!is_string($error))
-    printf("FAILURE: expecting string value, using default connection, got %s\n", gettype($error));        
-    
-$error = mysql_error($illegal_link_identifier);
-if (!is_bool($error))
-    printf("FAILURE: expecting boolean value, using illegal link identifier, got %s\n", gettype($error));
+if (!is_string($error)) {
+    printf("FAILURE: expecting string value, using default connection, got %s\n", gettype($error));
+}
 
-if ($error)
-    printf("FAILURE: expecting false, using illegal link identifier, got %s\n", $error);     
+$error = mysql_error($illegal_link_identifier);
+if (!is_bool($error)) {
+    printf("FAILURE: expecting boolean value, using illegal link identifier, got %s\n", gettype($error));
+}
+
+if ($error) {
+    printf("FAILURE: expecting false, using illegal link identifier, got %s\n", $error);
+}
 
 mysql_close($con);
 ?>

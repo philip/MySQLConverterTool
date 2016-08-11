@@ -34,102 +34,121 @@ Use mysql_num_rows() to find out how many rows were returned for a SELECT statem
 
 mysql_query() will also fail and return FALSE if the user does not have permission to access the table(s) referenced by the query. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
-        
-$res = mysql_query("DELETE FROM nobody", $con);
-if (!is_bool($res))
+}
+
+$res = mysql_query('DELETE FROM nobody', $con);
+if (!is_bool($res)) {
     printf("FAILURE: expecting boolean value as a reply to DELETE, got %s value, [%d] %s\n", gettype($res),
         mysql_errno($con), mysql_error($con));
+}
 
-if (!$res)
+if (!$res) {
     printf("FAILURE: expecting true as a reply to DELETE, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-$res = mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one')", $con);    
-if (!is_bool($res))
+}
+
+$res = mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one')", $con);
+if (!is_bool($res)) {
     printf("FAILURE: expecting boolean value as a reply to INSERT, got %s value, [%d] %s\n", gettype($res),
         mysql_errno($con), mysql_error($con));
+}
 
-if (!$res)
+if (!$res) {
     printf("FAILURE: expecting true as a reply to INSERT, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-$res = mysql_query("SELECT id, msg FROM nobody", $con);
-if (!is_resource($res))
+$res = mysql_query('SELECT id, msg FROM nobody', $con);
+if (!is_resource($res)) {
     printf("FAILURE: known change, mysql_query() returns resource, mysqli_query returns object\n");
+}
 
-if (!$res)
+if (!$res) {
     printf("FAILURE: expecting true as a reply to SELECT, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+}
+
 $row = mysql_fetch_assoc($res);
-if (!is_array($row) || !$row)
+if (!is_array($row) || !$row) {
     printf("FAILURE: could not fetch record, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if ($row['id'] != 1)
+}
+
+if ($row['id'] != 1) {
     printf("FAILURE: strange result, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+}
+
 mysql_free_result($res);
 
-$res = mysql_query("SELECT id, msg FROM nobody");
-if (!is_resource($res))
+$res = mysql_query('SELECT id, msg FROM nobody');
+if (!is_resource($res)) {
     printf("FAILURE: known change, mysql_query() returns resource (default connection), mysqli_query returns object\n");
+}
 
-if (!$res)
+if (!$res) {
     printf("FAILURE: expecting true as a reply to SELECT (default connection), [%d] %s\n", mysql_errno(), mysql_error());
-    
+}
+
 mysql_free_result($res);
 
-$res = mysql_query("SELECT id, msg FROM table_which_does_not_exist", $con);
-if (!is_bool($res))
+$res = mysql_query('SELECT id, msg FROM table_which_does_not_exist', $con);
+if (!is_bool($res)) {
     printf("FAILURE: known change, mysql_query() returns false on error (unknown table), mysqli_query returns NULL\n");
+}
 
-if ($res)
+if ($res) {
     printf("FAILURE: expecting false as a reply to SELECT (unknown table), [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-$res = mysql_query("SELECT id, msg FROM nobody", $illegal_link_identifier);
-if (!is_bool($res))
+$res = mysql_query('SELECT id, msg FROM nobody', $illegal_link_identifier);
+if (!is_bool($res)) {
     printf("FAILURE: known change, mysql_query() returns false on error (illegal link identifier), mysqli_query returns NULL\n");
+}
 
-if ($res)
+if ($res) {
     printf("FAILURE: expecting false as a reply to SELECT (illegal link identifier), [%d] %s\n", mysql_errno($illegal_link_identifier), mysql_error($illegal_link_identifier));
-  
-$res = mysql_query("SHOW TABLES", $con);
-if (!is_resource($res))
+}
+
+$res = mysql_query('SHOW TABLES', $con);
+if (!is_resource($res)) {
     printf("FAILURE: known change, mysql_query() returns resource (SHOW TABLES), mysqli_query returns object\n");
+}
 
-if (!$res)
+if (!$res) {
     printf("FAILURE: expecting true as a reply to SHOW TABLES, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 mysql_free_result($res);
 
-$res = mysql_query("DESCRIBE nobody", $con);
-if (!is_resource($res))
+$res = mysql_query('DESCRIBE nobody', $con);
+if (!is_resource($res)) {
     printf("FAILURE: known change, mysql_query() returns resource (DESCRIBE), mysqli_query returns object\n");
+}
 
-if (!$res)
+if (!$res) {
     printf("FAILURE: expecting true as a reply to DESCRIBE, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 mysql_free_result($res);
 
-$res = mysql_query("EXPLAIN SELECT id FROM nobody", $con);
-if (!is_resource($res))
+$res = mysql_query('EXPLAIN SELECT id FROM nobody', $con);
+if (!is_resource($res)) {
     printf("FAILURE: known change, mysql_query() returns resource (EXPLAIN), mysqli_query returns object\n");
+}
 
-if (!$res)
+if (!$res) {
     printf("FAILURE: expecting true as a reply to EXPLAIN, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 mysql_free_result($res);
-
-
 
 mysql_close($con);
 ?>

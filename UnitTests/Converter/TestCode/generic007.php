@@ -15,13 +15,14 @@ Return Values
 
 The MySQL client version. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 $client_info = mysql_get_client_info();
-if (!is_string($client_info))
+if (!is_string($client_info)) {
     printf("FAILURE: expected string value, got %s value\n", gettype($client_info));
-else
-    printf("SUCCESS\n");    
+} else {
+    printf("SUCCESS\n");
+}
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--
 SUCCESS

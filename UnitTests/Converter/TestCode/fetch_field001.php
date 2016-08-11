@@ -64,103 +64,125 @@ Returns an object containing field information. The properties of the object are
 
       zerofill - 1 if the column is zero-filled 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
+}
 
-if (!mysql_query("DELETE FROM nobody", $con))
+if (!mysql_query('DELETE FROM nobody', $con)) {
     printf("FAILURE: cannot clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con))
+}
+
+if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con)) {
     printf("FAILURE: insert records into table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-    
-if (!($res = mysql_query("SELECT id, msg FROM nobody ORDER BY id ASC", $con))) 
+}
+
+if (!($res = mysql_query('SELECT id, msg FROM nobody ORDER BY id ASC', $con))) {
     printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 $obj = mysql_fetch_field($res);
-if (!is_object($obj))
+if (!is_object($obj)) {
     printf("FAILURE: expecting object, got %s value, [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
+}
 
-if ($obj->name != 'id')
-    printf("FAILURE: problems with name property, [%d] %s\n", 
+if ($obj->name != 'id') {
+    printf("FAILURE: problems with name property, [%d] %s\n",
         mysql_errno($con), mysql_error($con));
+}
 
-if ($obj->table != 'nobody')
-    printf("FAILURE: problems with table property, [%d] %s\n", 
+if ($obj->table != 'nobody') {
+    printf("FAILURE: problems with table property, [%d] %s\n",
         mysql_errno($con), mysql_error($con));
+}
 
-if ($obj->def != '')
-    printf("FAILURE: problems with def property, [%d] %s\n", 
+if ($obj->def != '') {
+    printf("FAILURE: problems with def property, [%d] %s\n",
         mysql_errno($con), mysql_error($con));
-        
-if ($obj->not_null != 0)
-    printf("FAILURE: problems with not_null property, [%d] %s\n", 
-        mysql_errno($con), mysql_error($con));
+}
 
-if ($obj->max_length != 1)
-    printf("FAILURE: problems with max_length property, [%d] %s\n", 
-        mysql_errno($con), mysql_error($con));        
+if ($obj->not_null != 0) {
+    printf("FAILURE: problems with not_null property, [%d] %s\n",
+        mysql_errno($con), mysql_error($con));
+}
 
-if ($obj->primary_key != 0)
-    printf("FAILURE: problems with primary_key property, [%d] %s\n",     
+if ($obj->max_length != 1) {
+    printf("FAILURE: problems with max_length property, [%d] %s\n",
         mysql_errno($con), mysql_error($con));
-        
-if ($obj->multiple_key != 0)
-    printf("FAILURE: problems with multiple_key property, [%d] %s\n", 
-        mysql_errno($con), mysql_error($con));
-        
-if ($obj->numeric != 1)
-    printf("FAILURE: problems with numeric property, [%d] %s\n", 
-        mysql_errno($con), mysql_error($con));
+}
 
-if ($obj->blob != 0)
-    printf("FAILURE: problems with blob property, [%d] %s\n", 
+if ($obj->primary_key != 0) {
+    printf("FAILURE: problems with primary_key property, [%d] %s\n",
         mysql_errno($con), mysql_error($con));
-               
-if ($obj->type != 'int')
-    printf("FAILURE: problems with type property, [%d] %s\n", 
-        mysql_errno($con), mysql_error($con));
-        
-if ($obj->unsigned != 0)
-    printf("FAILURE: problems with unsigned property, [%d] %s\n", 
-        mysql_errno($con), mysql_error($con));
+}
 
-if ($obj->zerofill != 0)
-    printf("FAILURE: problems with zerofill property, [%d] %s\n", 
+if ($obj->multiple_key != 0) {
+    printf("FAILURE: problems with multiple_key property, [%d] %s\n",
         mysql_errno($con), mysql_error($con));
-        
+}
+
+if ($obj->numeric != 1) {
+    printf("FAILURE: problems with numeric property, [%d] %s\n",
+        mysql_errno($con), mysql_error($con));
+}
+
+if ($obj->blob != 0) {
+    printf("FAILURE: problems with blob property, [%d] %s\n",
+        mysql_errno($con), mysql_error($con));
+}
+
+if ($obj->type != 'int') {
+    printf("FAILURE: problems with type property, [%d] %s\n",
+        mysql_errno($con), mysql_error($con));
+}
+
+if ($obj->unsigned != 0) {
+    printf("FAILURE: problems with unsigned property, [%d] %s\n",
+        mysql_errno($con), mysql_error($con));
+}
+
+if ($obj->zerofill != 0) {
+    printf("FAILURE: problems with zerofill property, [%d] %s\n",
+        mysql_errno($con), mysql_error($con));
+}
+
 $obj = mysql_fetch_field($res, 1);
-if (!is_object($obj))
+if (!is_object($obj)) {
     printf("FAILURE: expecting object, got %s value, [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
-        
-if ($obj->name != 'msg')
-    printf("FAILURE: problems with the offset, [%d] %s\n", 
+}
+
+if ($obj->name != 'msg') {
+    printf("FAILURE: problems with the offset, [%d] %s\n",
         mysql_errno($con), mysql_error($con));
+}
 
-$obj = mysql_fetch_field($res, 99);    
-if (!is_bool($obj))
-    printf("FAILURE: expecting boolean because of invalid offset, got %s value, [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));        
-    
-if ($obj)
-    printf("FAILURE: expecting false because of invalid offset, [%d] %s\n", mysql_errno($con), mysql_error($con));            
-    
-$obj = mysql_fetch_field($illegal_link_identifier);      
-if (!is_bool($obj))
-    printf("FAILURE: expecting boolean value because of invalid handle, got %s value, [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));    
+$obj = mysql_fetch_field($res, 99);
+if (!is_bool($obj)) {
+    printf("FAILURE: expecting boolean because of invalid offset, got %s value, [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
+}
 
-    if ($obj)
-    printf("FAILURE: expecting false because of invalid handle, [%d] %s\n", mysql_errno($con), mysql_error($con));            
-    
+if ($obj) {
+    printf("FAILURE: expecting false because of invalid offset, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+$obj = mysql_fetch_field($illegal_link_identifier);
+if (!is_bool($obj)) {
+    printf("FAILURE: expecting boolean value because of invalid handle, got %s value, [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
+}
+
+    if ($obj) {
+        printf("FAILURE: expecting false because of invalid handle, [%d] %s\n", mysql_errno($con), mysql_error($con));
+    }
+
 mysql_free_result($res);
 mysql_close($con);
 ?>

@@ -2,7 +2,7 @@
 SUCCESS: mysql_connect() with Unix Socket
 --FILE--
 <?php
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 $con = mysql_connect(':/path/to/socket/');
 var_dump(is_resource($con));

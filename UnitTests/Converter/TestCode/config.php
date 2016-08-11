@@ -16,12 +16,11 @@ DROP DATABASE _conv_test;
 DROP USER '_conv_root';
 */
 
-$host           = '127.0.0.1';
+$host = '127.0.0.1';
 
-$user           = '_conv_root';
-$pass           = '_conv_root';
-$db             = '_conv_test';
+$user = '_conv_root';
+$pass = '_conv_root';
+$db = '_conv_test';
 
-$user_nobody    = '_conv_nobody';
-$pass_nobody    = '_conv_nobody';
-?>
+$user_nobody = '_conv_nobody';
+$pass_nobody = '_conv_nobody';

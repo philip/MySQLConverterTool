@@ -23,28 +23,30 @@ Return Values
 
 Returns the escaped string. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 // I hate ext/mysql - this one does not fail!
 $escaped = mysql_escape_string("ext/mysql doesn't fail...");
-if (!is_string($escaped))
+if (!is_string($escaped)) {
     printf("FAILURE: 1 did not return string value but %s value\n", gettype($escaped));
-    
+}
+
 var_dump($escaped);
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
 $escaped = mysql_escape_string("ext/mysql and ext/mysqli won't fail...");
-if (!is_string($escaped))
+if (!is_string($escaped)) {
     printf("FAILURE: 2 did not return string value but %s value\n", gettype($escaped));
+}
 
 var_dump($escaped);
-    
+
 mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--

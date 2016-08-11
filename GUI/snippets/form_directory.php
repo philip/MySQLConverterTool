@@ -1,13 +1,15 @@
 <?PHP
 /**
-* GUI Template: convert directory form
+* GUI Template: convert directory form.
 *
 * @category   GUI
-* @package    MySQLConverterTool
+*
 * @author     Andrey Hristov <andrey@php.net>, Ulf Wendel <ulf.wendel@phpdoc.de>
 * @copyright  1997-2006 The PHP Group
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+*
 * @version    CVS: $Id:$, Release: @package_version@
+*
 * @link       http://www.mysql.com
 * @since      Available since Release 1.0
 */
@@ -24,21 +26,22 @@
 </div>
 <?PHP
 if (!empty($snippet_errors)) {
-?>
+    ?>
 <div class="maintextbox">
     <h2>Errors</h2>    
     <ul>
     <?PHP
-    foreach ($snippet_errors as $field => $msg)
+    foreach ($snippet_errors as $field => $msg) {
         printf('<li class="error">%s</li>', htmlspecialchars($msg));
-    ?>
+    } ?>
     </ul>    
 </div>            
 <?php
+
 }
 ?>  
 <div class="maintextbox">    
-<form action="<?php print $_SERVER['PHP_SELF']; ?>" name="directory" id="directory" method="post">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="directory" id="directory" method="post">
     <script language="JavaScript">
         
         function activate_backup() {                     
@@ -68,12 +71,12 @@ if (!empty($snippet_errors)) {
         <br />
         <table align="right">        
         <tr>
-            <td class="<?php print isset($snippet_errors['directory']) ? 'formlabelerror' : 'formlabel'; ?>">Directory</td>
-            <td class="formelement"><input type="text" name="directory" size="60" value="<?php print (isset($_POST['directory'])) ? $_POST['directory'] : ''; ?>" /></td>
+            <td class="<?php echo isset($snippet_errors['directory']) ? 'formlabelerror' : 'formlabel'; ?>">Directory</td>
+            <td class="formelement"><input type="text" name="directory" size="60" value="<?php echo (isset($_POST['directory'])) ? $_POST['directory'] : ''; ?>" /></td>
         </tr>        
         <tr>
-            <td class="<?php print isset($snippet_errors['pattern']) ? 'formlabelerror' : 'formlabel'; ?>">File pattern</td>
-            <td class="formelement"><input type="text" name="pattern" size="60" value="<?php print (isset($_POST['pattern'])) ? $_POST['pattern'] : '*.php, *.phps, *.php3, *.php4, *.php5'; ?>" /></td>
+            <td class="<?php echo isset($snippet_errors['pattern']) ? 'formlabelerror' : 'formlabel'; ?>">File pattern</td>
+            <td class="formelement"><input type="text" name="pattern" size="60" value="<?php echo (isset($_POST['pattern'])) ? $_POST['pattern'] : '*.php, *.phps, *.php3, *.php4, *.php5'; ?>" /></td>
         <tr>
         <tr>
             <td></td>
@@ -84,7 +87,7 @@ if (!empty($snippet_errors)) {
         <tr>
         <tr>
             <td class="formlabel">Skip pattern</td>
-            <td class="formelement"><input type="text" name="skip_pattern" size="60" value="<?php print (isset($_POST['skip_pattern'])) ? $_POST['skip_pattern'] : ''; ?>" /></td>
+            <td class="formelement"><input type="text" name="skip_pattern" size="60" value="<?php echo (isset($_POST['skip_pattern'])) ? $_POST['skip_pattern'] : ''; ?>" /></td>
         </tr>
         <tr>
             <td></td>
@@ -94,16 +97,16 @@ if (!empty($snippet_errors)) {
             </td>
         <tr>
         <tr>
-            <td class="<?php print (isset($snippet_errors['update'])) ? 'formlabelerror' : 'formlabel'; ?>">Update&nbsp;files?</td>
+            <td class="<?php echo (isset($snippet_errors['update'])) ? 'formlabelerror' : 'formlabel'; ?>">Update&nbsp;files?</td>
             <td class="formelement">
-                <input type="radio" name="update" id="update" value="no" onClick="activate_backup()" <?php print (isset($_POST['update']) && $_POST['update'] != 'no') ? '' : 'checked'; ?>> No<br />
-                <input type="radio" name="update" id="update" value="yes" onClick="activate_backup()" <?php print (isset($_POST['update']) && $_POST['update'] == 'yes') ? 'checked' : ''; ?>> Yes
+                <input type="radio" name="update" id="update" value="no" onClick="activate_backup()" <?php echo (isset($_POST['update']) && $_POST['update'] != 'no') ? '' : 'checked'; ?>> No<br />
+                <input type="radio" name="update" id="update" value="yes" onClick="activate_backup()" <?php echo (isset($_POST['update']) && $_POST['update'] == 'yes') ? 'checked' : ''; ?>> Yes
             </td>
         <tr>
         <tr>
-            <td class="<?php print (isset($snippet_errors['backup'])) ? 'formlabelerror' : 'formlabel'; ?>">Backup files?</td>
+            <td class="<?php echo (isset($snippet_errors['backup'])) ? 'formlabelerror' : 'formlabel'; ?>">Backup files?</td>
             <td class="formelement">
-                <input type="checkbox" name="backup" id="backup" <?php print (isset($_POST['backup'])) ? 'checked' : ''; ?>> Yes, backup the original files to &lt;name.org&gt;              
+                <input type="checkbox" name="backup" id="backup" <?php echo (isset($_POST['backup'])) ? 'checked' : ''; ?>> Yes, backup the original files to &lt;name.org&gt;              
             </td>
         <tr>
         <tr>

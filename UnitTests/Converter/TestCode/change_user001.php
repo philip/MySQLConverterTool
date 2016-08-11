@@ -27,29 +27,30 @@ Return Values
 
 Returns TRUE on success or FALSE on failure. */
 
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 if (!function_exists('_conv_checkUserAndDB')) {
-    
-    function _conv_checkUserAndDB($con, $user, $db, $row) {
-    
-        $error = "";    
-        if ($row['db'] != $db)
+    function _conv_checkUserAndDB($con, $user, $db, $row)
+    {
+        $error = '';
+        if ($row['db'] != $db) {
             $error .= sprintf("FAILURE: current database is '%s' should be '%s'\n", $row['db'], $db);
+        }
 
-        $user_found = $row['user'];   
-        if (($pos = strpos($user_found, '@')) !== false)
+        $user_found = $row['user'];
+        if (($pos = strpos($user_found, '@')) !== false) {
             $user_found = substr($user_found, 0, $pos);
-        
-        if ($user_found != $user)
+        }
+
+        if ($user_found != $user) {
             $error .= sprintf("FAILURE: current user is '%s' should be '%s'\n", $user_found, $user);
-   
+        }
+
         return $error;
     }
-    
-}    
+}
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 }
@@ -57,34 +58,35 @@ if (!mysql_select_db($db, $con)) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 }
 
-$res = mysql_query("SELECT DATABASE() AS db, CURRENT_USER AS user", $con);
+$res = mysql_query('SELECT DATABASE() AS db, CURRENT_USER AS user', $con);
 if (!$res) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 }
-if ($error = _conv_checkUserAndDB($con, $user, $db, mysql_fetch_assoc($res)))
+if ($error = _conv_checkUserAndDB($con, $user, $db, mysql_fetch_assoc($res))) {
     print $error;
-else
-    print "SUCCESS: user and db are correct\n";    
-    
+} else {
+    print "SUCCESS: user and db are correct\n";
+}
+
 mysql_free_result($res);
 
 if (function_exists('mysql_change_user')) {
-    
     $ret = mysql_change_user($user_nobody, $pass_nobody, $db, $con);
-    if ($ret) {        
-        print "SUCCESS - mysql_change_user(user, pass, db, con)\n";    
+    if ($ret) {
+        echo "SUCCESS - mysql_change_user(user, pass, db, con)\n";
     } else {
-        print "FAILURE - mysql_change_user(user, pass, db, con)\n";
+        echo "FAILURE - mysql_change_user(user, pass, db, con)\n";
     }
-    
-    $res = mysql_query("SELECT DATABASE() AS db, CURRENT_USER AS user", $con);
+
+    $res = mysql_query('SELECT DATABASE() AS db, CURRENT_USER AS user', $con);
     if (!$res) {
         printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
     }
 
-    if ($error = _conv_checkUserAndDB($con, $user_nobody, $db, mysql_fetch_assoc($res)))
+    if ($error = _conv_checkUserAndDB($con, $user_nobody, $db, mysql_fetch_assoc($res))) {
         print $error;
-}    
+    }
+}
 
 mysql_close($con);
 ?>

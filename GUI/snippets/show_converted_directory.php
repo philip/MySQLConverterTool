@@ -1,13 +1,15 @@
 <?PHP
 /**
-* GUI Template: directory conversion summary
+* GUI Template: directory conversion summary.
 *
 * @category   GUI
-* @package    MySQLConverterTool
+*
 * @author     Andrey Hristov <andrey@php.net>, Ulf Wendel <ulf.wendel@phpdoc.de>
 * @copyright  1997-2006 The PHP Group
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+*
 * @version    CVS: $Id:$, Release: @package_version@
+*
 * @link       http://www.mysql.com
 * @since      Available since Release 1.0
 */
@@ -25,12 +27,12 @@
         <th style="padding:0.5em">Code&nbsp;(kB)</th>
     </tr>
     <tr>
-        <td align="right" style="padding:0.5em"><?php print $snippet_conv_count; ?></td>
-        <td align="right" style="padding:0.5em"><?php print $snippet_conv_ok; ?></td>
-        <td align="right" style="padding:0.5em"><?php print $snippet_conv_warnings; ?></td>
-        <td align="right" style="padding:0.5em"><?php print $snippet_conv_errors; ?></td>
-        <td align="right" style="padding:0.5em"><?php print $snippet_conv_found; ?></td>
-        <td align="right" style="padding:0.5em"><?php print $snippet_conv_converted; ?></td>
+        <td align="right" style="padding:0.5em"><?php echo $snippet_conv_count; ?></td>
+        <td align="right" style="padding:0.5em"><?php echo $snippet_conv_ok; ?></td>
+        <td align="right" style="padding:0.5em"><?php echo $snippet_conv_warnings; ?></td>
+        <td align="right" style="padding:0.5em"><?php echo $snippet_conv_errors; ?></td>
+        <td align="right" style="padding:0.5em"><?php echo $snippet_conv_found; ?></td>
+        <td align="right" style="padding:0.5em"><?php echo $snippet_conv_converted; ?></td>
         <td align="right" style="padding:0.5em"><?php printf('%d', ($snippet_conv_length > 0) ? $snippet_conv_length / 1024 : 0); ?></td>
     </tr>
     </table>

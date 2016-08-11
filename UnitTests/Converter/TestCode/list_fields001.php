@@ -31,69 +31,83 @@ A result pointer resource on success, or FALSE on failure.
 
 The returned result can be used with mysql_field_flags(), mysql_field_len(), mysql_field_name() and mysql_field_type(). 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
-   
-if (!($res = mysql_list_fields($db, 'nobody')))
+}
+
+if (!($res = mysql_list_fields($db, 'nobody'))) {
     printf("FAILURE: cannot run mysql_list_fields() on default connection, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 $row = mysql_fetch_array($res);
 
-if (!is_array($row))
+if (!is_array($row)) {
     printf("FAILURE: expecting array, got %s value, [%d] %s\n", gettype($row), mysql_errno($con), mysql_error($con));
+}
 
-if (!array_key_exists(0, $row) || !array_key_exists("Field", $row) || $row[0] != $row["Field"])
-    printf("FAILURE: hash looks strange, [%d] %s\n", gettype($row), mysql_errno($con), mysql_error($con));    
-    
-if ($row["Field"] != "id")
+if (!array_key_exists(0, $row) || !array_key_exists('Field', $row) || $row[0] != $row['Field']) {
+    printf("FAILURE: hash looks strange, [%d] %s\n", gettype($row), mysql_errno($con), mysql_error($con));
+}
+
+if ($row['Field'] != 'id') {
     printf("FAILURE: strange field name,  [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-mysql_free_result($res);    
-    
-if (!($res = mysql_list_fields($db, 'nobody', $con)))
+mysql_free_result($res);
+
+if (!($res = mysql_list_fields($db, 'nobody', $con))) {
     printf("FAILURE: cannot run mysql_list_fields(), [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 mysql_free_result($res);
 
 $res = mysql_list_fields($db, 'nobody', $illegal_link_identifier);
 
-if (!is_bool($res))
-    printf("FAILURE: expecting boolean value (illegal link identifier), got %s value,  [%d] %s\n", gettype($row), mysql_errno($con), mysql_error($con));  
-    
-if ($res)
-    printf("FAILURE: expecting false (illegal link identifier), got true,   [%d] %s\n", mysql_errno($con), mysql_error($con));  
+if (!is_bool($res)) {
+    printf("FAILURE: expecting boolean value (illegal link identifier), got %s value,  [%d] %s\n", gettype($row), mysql_errno($con), mysql_error($con));
+}
 
-if (!defined('LIST_FIELDS_TABLE'))    
-    define('LIST_FIELDS_TABLE', 'nobody');    
-    
-if (!($res = mysql_list_fields($db, LIST_FIELDS_TABLE, $con)))
+if ($res) {
+    printf("FAILURE: expecting false (illegal link identifier), got true,   [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if (!defined('LIST_FIELDS_TABLE')) {
+    define('LIST_FIELDS_TABLE', 'nobody');
+}
+
+if (!($res = mysql_list_fields($db, LIST_FIELDS_TABLE, $con))) {
     printf("FAILURE [LIST_FIELDS_TABLE]: cannot run mysql_list_fields(), [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+}
+
 $row = mysql_fetch_array($res);
-if ($row['Field'] != 'id')
-    printf("FAILURE [LIST_FIELDS_TABLE]: return value looks strange, [%d] %s\n", mysql_errno($con), mysql_error($con));   
+if ($row['Field'] != 'id') {
+    printf("FAILURE [LIST_FIELDS_TABLE]: return value looks strange, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 mysql_free_result($res);
-    
-if (!defined('LIST_FIELDS_DATABASE'))    
-    define('LIST_FIELDS_DATABASE', $db);    
-    
-if (!($res = mysql_list_fields(LIST_FIELDS_DATABASE, LIST_FIELDS_TABLE, $con)))
+
+if (!defined('LIST_FIELDS_DATABASE')) {
+    define('LIST_FIELDS_DATABASE', $db);
+}
+
+if (!($res = mysql_list_fields(LIST_FIELDS_DATABASE, LIST_FIELDS_TABLE, $con))) {
     printf("FAILURE [LIST_FIELDS_DATABASE, LIST_FIELDS_TABLE]: cannot run mysql_list_fields(), [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+}
+
 $row = mysql_fetch_array($res);
-if ($row['Field'] != 'id')
-    printf("FAILURE [LIST_FIELDS_DATABASE, LIST_FIELDS_TABLE]: return value looks strange, [%d] %s\n", mysql_errno($con), mysql_error($con));   
+if ($row['Field'] != 'id') {
+    printf("FAILURE [LIST_FIELDS_DATABASE, LIST_FIELDS_TABLE]: return value looks strange, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 mysql_free_result($res);
 

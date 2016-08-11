@@ -21,44 +21,49 @@ Return Values
 
 Returns a result pointer resource on success, or FALSE on failure. Use the mysql_tablename() function to traverse this result pointer, or any function for result tables, such as mysql_fetch_array(). 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!($res = mysql_list_dbs($con)))
+if (!($res = mysql_list_dbs($con))) {
     printf("FAILURE: mysql_list_dbs(con) failed, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+}
+
 mysql_free_result($res);
 
-if (!($res = mysql_list_dbs()))
+if (!($res = mysql_list_dbs())) {
     printf("FAILURE: mysql_list_dbs() failed, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-$found = false;    
+$found = false;
 while ($row = mysql_fetch_assoc($res)) {
-    
-    if (!array_key_exists('Database', $row))
+    if (!array_key_exists('Database', $row)) {
         printf("FAILURE: hash does not have a 'Database' field, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+    }
+
     if ($row['Database'] == $db) {
         $found = true;
         break;
     }
 }
-if (!$found)
+if (!$found) {
     printf("FAILURE: Database '%s' was not found\n", $db);
+}
 
 $res = mysql_list_dbs($illegal_link_identifier);
-if (!is_bool($res))
+if (!is_bool($res)) {
     printf("FAILURE: expecting boolean value, got %s value, [%d] %s\n", gettype($res), mysql_errno($con), mysql_error($con));
-    
-if ($res) 
+}
+
+if ($res) {
     printf("FAILURE: expecting false, [%d] %s\n", mysql_errno($con), mysql_error($con));
-        
+}
+
 mysql_free_result($res);
 mysql_close($con);
 ?>

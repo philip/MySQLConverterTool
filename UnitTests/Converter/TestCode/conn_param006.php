@@ -23,35 +23,38 @@ Returns TRUE if the connection to the server MySQL server is working, otherwise 
 
 NOTE: DOCUMENTATION IS WRONG - returns NULL instead of FALSE
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-    
-$ping_default   = mysql_ping();
-$ping_con       = mysql_ping($con);
-if ($ping_default != $ping_con)
+$ping_default = mysql_ping();
+$ping_con = mysql_ping($con);
+if ($ping_default != $ping_con) {
     printf("FAILURE: different values returned for ping with specified and default connection\n");
+}
 
-if (!is_bool($ping_con))
+if (!is_bool($ping_con)) {
     printf("FAILURE: boolean value expected, got %s value\n", gettype($ping_con));
+}
 
 $ping_con = mysql_ping($illegal_link_identifier);
-if (!is_null($ping_con))
+if (!is_null($ping_con)) {
     printf("FAILURE: NULL value expected because of illegal identifier, got %s value\n", gettype($ping_con));
+}
 
-if ($ping_con)
+if ($ping_con) {
     printf("FAILURE: false expected\n");
-    
-    
+}
+
 mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--

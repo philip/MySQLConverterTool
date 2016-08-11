@@ -24,34 +24,38 @@ The thread ID on success, or FALSE on failure.
 
 NOTE: DOCUMENTATION IS WRONG - NULL on failure!
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-    
 $id_default = mysql_thread_id();
-$id_con     = mysql_thread_id($con);
+$id_con = mysql_thread_id($con);
 
-if ($id_default != $id_con)
+if ($id_default != $id_con) {
     printf("FAILURE: Different values for default and specified connection\n");
+}
 
-if (!is_int($id_con))
+if (!is_int($id_con)) {
     printf("FAILURE: Function should have returned an integer value, got %s value\n", gettype($id_con));
-        
-$id_con = mysql_thread_id($illegal_link_identifier) ;
-if (!is_null($id_con))
-    printf("FAILURE: Function should have returned a NULL value, got %s value\n", gettype($id_con)); 
-   
-if ($id_con !== NULL)
-    printf("FAILURE: Should return NULL because of illegal link identifier\n");   
+}
+
+$id_con = mysql_thread_id($illegal_link_identifier);
+if (!is_null($id_con)) {
+    printf("FAILURE: Function should have returned a NULL value, got %s value\n", gettype($id_con));
+}
+
+if ($id_con !== null) {
+    printf("FAILURE: Should return NULL because of illegal link identifier\n");
+}
 
 mysql_close($con);
 ?>

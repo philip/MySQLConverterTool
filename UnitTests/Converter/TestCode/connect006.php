@@ -2,7 +2,7 @@
 SUCCESS: mysql_connect() with Unix Socket - ext/mysql reports success for bogus socket
 --FILE--
 <?php
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 $con = mysql_connect(':/path/to/socket/', $user, $pass);
 var_dump(is_resource($con));

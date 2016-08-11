@@ -21,28 +21,27 @@ Return Values
 
 Returns the default character set name for the current connection. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
-   printf("FAILURE: [%d] %s\n", mysql_errno($con), mysql_error($con));
+if (!mysql_select_db($db, $con)) {
+    printf("FAILURE: [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 $encoding_default = mysql_client_encoding();
-$encoding_con     = mysql_client_encoding($con);
+$encoding_con = mysql_client_encoding($con);
 
 if ($encoding_con != $encoding_default) {
     printf("FAILURE: different client encodings reported, [%d] %s\n", mysql_errno($con), mysql_error($con));
-} else if (!is_string($encoding_con)) {
+} elseif (!is_string($encoding_con)) {
     printf("FAILURE: no string returned, [%d] %s\n", mysql_errno($con), mysql_error($con));
 }
-    
-
 
 mysql_close($con);
 ?>

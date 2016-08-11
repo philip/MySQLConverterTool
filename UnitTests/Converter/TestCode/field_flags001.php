@@ -41,75 +41,74 @@ The following flags are reported, if your version of MySQL is current enough to 
         // "set"                SET_FLAG            MYSQLI_SET_FLAG
 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
+}
 
 $columns = array(
-    'COL_NOT_NULL'      =>  array('INT NOT NULL', '1', 'not_null'),
-    'COL_PRIMARY_KEY'   =>  array('INT PRIMARY KEY NOT NULL', '1', 'primary_key not_null'),    
-    'COL_UNIQUE'        =>  array('INT UNIQUE', '1', 'unique_key'),
-    'COL_BLOB'          =>  array('BLOB', '1', 'blob binary'),
-    'COL_UNSIGNED'      =>  array('INT UNSIGNED', '1', 'unsigned'),
-    'COL_ZEROFILL'      =>  array('INT ZEROFILL', '1', 'unsigned zerofill'),
-    'COL_ENUM'          =>  array('ENUM("true", "false")', '"false"', 'enum'),
-    'COL_AUTO_INC'      =>  array('INT AUTO_INCREMENT PRIMARY KEY NOT NULL', '1', 'primary_key not_null auto_increment'),
-    'COL_TIMESTAMP'     =>  array('TIMESTAMP', '20060728235021', 'timestamp binary not_null unsigned zerofill'),    
-    'COL_SET'           =>  array('SET("true", "false")', '"false"', 'set'),
-    
+    'COL_NOT_NULL' => array('INT NOT NULL', '1', 'not_null'),
+    'COL_PRIMARY_KEY' => array('INT PRIMARY KEY NOT NULL', '1', 'primary_key not_null'),
+    'COL_UNIQUE' => array('INT UNIQUE', '1', 'unique_key'),
+    'COL_BLOB' => array('BLOB', '1', 'blob binary'),
+    'COL_UNSIGNED' => array('INT UNSIGNED', '1', 'unsigned'),
+    'COL_ZEROFILL' => array('INT ZEROFILL', '1', 'unsigned zerofill'),
+    'COL_ENUM' => array('ENUM("true", "false")', '"false"', 'enum'),
+    'COL_AUTO_INC' => array('INT AUTO_INCREMENT PRIMARY KEY NOT NULL', '1', 'primary_key not_null auto_increment'),
+    'COL_TIMESTAMP' => array('TIMESTAMP', '20060728235021', 'timestamp binary not_null unsigned zerofill'),
+    'COL_SET' => array('SET("true", "false")', '"false"', 'set'),
+
 );
 
 foreach ($columns as $name => $column) {
-    
     @mysql_query('DROP TABLE field_flags', $con);
-    
+
     $sql = sprintf('CREATE TABLE field_flags(%s %s)', $name, $column[0]);
-    mysql_query($sql, $con);             
-        
+    mysql_query($sql, $con);
+
     $sql = sprintf('INSERT INTO field_flags(%s) values (%s)', $name, $column[1]);
     if (!mysql_query($sql, $con)) {
         printf("FAILURE: insert for column '%s' failed, [%d] %s\n",
             $column[0], mysql_errno($con), mysql_error($con));
-        continue;            
+        continue;
     }
-    
+
     if (!($res = mysql_query('SELECT * FROM field_flags', $con))) {
         printf("FAILURE: cannot select value of column %s failed, [%d] %s\n",
             $column[0], mysql_errno($con), mysql_error($con));
-        continue;            
+        continue;
     }
-    
-    $fields = mysql_field_flags($res, 0);    
+
+    $fields = mysql_field_flags($res, 0);
     mysql_free_result($res);
-    
+
     if (!is_string($fields)) {
         printf("FAILURE: cannot fetch field flags of column '%s', got %s value instead of a string, [%d] %s\n",
             $column[0], gettype($fields), mysql_errno($con), mysql_error($con));
-        continue;            
+        continue;
     }
-        
-    $fields     = explode(' ', $fields);
-    $fields     = array_flip($fields);
+
+    $fields = explode(' ', $fields);
+    $fields = array_flip($fields);
     ksort($fields);
-    $expected   = explode(' ', $column[2]);
-    $expected   = array_flip($expected);
-    ksort($expected);    
-    $diff = array_diff($fields, $expected);    
-    if (!empty($diff)) {    
-        printf("FAILURE: the following fields are not expected: %s\n", implode(" ", $diff));
+    $expected = explode(' ', $column[2]);
+    $expected = array_flip($expected);
+    ksort($expected);
+    $diff = array_diff($fields, $expected);
+    if (!empty($diff)) {
+        printf("FAILURE: the following fields are not expected: %s\n", implode(' ', $diff));
     }
-    
 }
-  
+
 mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--

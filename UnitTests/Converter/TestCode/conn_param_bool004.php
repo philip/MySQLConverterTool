@@ -21,31 +21,34 @@ Return Values
 
 Returns the MySQL server version on success, or FALSE on failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-$server_info_default  = mysql_get_server_info();
-$server_info_con      = mysql_get_server_info($con);
+$server_info_default = mysql_get_server_info();
+$server_info_con = mysql_get_server_info($con);
 if ($server_info_con != $server_info_default) {
     printf("FAILURE: proto info of default connection and specified connection differ\n");
 }
 
-if (!is_string($server_info_con))
+if (!is_string($server_info_con)) {
     printf("FAILURE: function should have returned a string\n");
+}
 
 $server_info_con = mysql_get_server_info($illegal_link_identifier);
-if (!is_bool($server_info_con))
+if (!is_bool($server_info_con)) {
     printf("FAILURE: function should have returned a boolean value, got %s value\n", gettype($server_info_con));
+}
 
-if ($server_info_con)
+if ($server_info_con) {
     printf("FAILURE: function should have failed with illegal link identifier\n");
-    
+}
+
 mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--

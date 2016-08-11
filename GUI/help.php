@@ -1,23 +1,24 @@
 <?PHP
 /**
-* GUI: help
+* GUI: help.
 *
 * @category   GUI
-* @package    MySQLConverterTool
+*
 * @author     Andrey Hristov <andrey@php.net>, Ulf Wendel <ulf.wendel@phpdoc.de>
 * @copyright  1997-2006 The PHP Group
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+*
 * @version    CVS: $Id:$, Release: @package_version@
+*
 * @link       http://www.mysql.com
 * @since      Available since Release 1.0
 */
-
-require_once('snippets/MySQLConverterTool_GUI_Snippets.php');
+require_once 'snippets/MySQLConverterTool_GUI_Snippets.php';
 
 $snippet_title = 'MySQL ext/mysql Converter Tool';
 $snippet_greeting = 'Help';
 $snippet_nav_path = array($_SERVER['PHP_SELF'] => 'Help');
-MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__) . '/snippets/header.php');
+MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__).'/snippets/header.php');
 ?>
 <h3>About</h3>
 <p>
@@ -142,5 +143,5 @@ the word "FAILURE". Check the test cases in the folder <code>UnitTests/Converter
 for details.
 </p>
 <?php
-MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__) . '/snippets/footer.php');
+MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__).'/snippets/footer.php');
 ?>

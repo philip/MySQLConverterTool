@@ -25,27 +25,29 @@ When using UPDATE, MySQL will not update columns where the new value is the same
 The REPLACE statement first deletes the record with the same primary key and then inserts the new record. This function returns the number of deleted records plus the number of inserted records. 
 require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
-   printf("FAILURE: [%d] %s\n", mysql_errno($con), mysql_error($con));
-   
-if (!mysql_query("INSERT INTO nobody(id) VALUES (1)"))
+if (!mysql_select_db($db, $con)) {
+    printf("FAILURE: [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if (!mysql_query('INSERT INTO nobody(id) VALUES (1)')) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
-    
+}
+
 $affected = mysql_affected_rows();
 if ($affected == 1) {
-    print "SUCCESS: one row affected\n";
-} else if ($affected > 0) {
+    echo "SUCCESS: one row affected\n";
+} elseif ($affected > 0) {
     printf("FAILURE: one row should have been affected, %d reported\n", $affected);
-} else if ($affected == -1) {
+} elseif ($affected == -1) {
     printf("FAILURE: command failed, -1 returned\n");
 }
 

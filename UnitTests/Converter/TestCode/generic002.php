@@ -30,86 +30,98 @@ NOTE: This function gets called too frequently, we did not take care of the diff
 return types between ext/mysql (false) and ext/mysqli (NULL) in case of an error. It would
 cost too much performance to convert the call to ((is_null($__f = func())) ? false : $__f).
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
+}
 
-if (!mysql_query("DELETE FROM nobody", $con))
+if (!mysql_query('DELETE FROM nobody', $con)) {
     printf("FAILURE: cannot clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con))
+}
+
+if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con)) {
     printf("FAILURE: insert records into table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-    
-if (!($res = mysql_query("SELECT id, msg FROM nobody ORDER BY id ASC", $con))) 
+}
+
+if (!($res = mysql_query('SELECT id, msg FROM nobody ORDER BY id ASC', $con))) {
     printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-    
 $ret = mysql_fetch_array($res);
-if (!is_array($ret))
-    printf("FAILURE: expecting array value, got %s value, [%d] %s\n", 
-        gettype($ret), mysql_errno($con), mysql_error($con));  
-        
-        
+if (!is_array($ret)) {
+    printf("FAILURE: expecting array value, got %s value, [%d] %s\n",
+        gettype($ret), mysql_errno($con), mysql_error($con));
+}
+
 $ret = mysql_fetch_array($res, MYSQL_NUM);
-if (!is_array($ret))
-    printf("FAILURE: expecting array value, got %s value, [%d] %s\n", 
-        gettype($ret), mysql_errno($con), mysql_error($con));  
+if (!is_array($ret)) {
+    printf("FAILURE: expecting array value, got %s value, [%d] %s\n",
+        gettype($ret), mysql_errno($con), mysql_error($con));
+}
 
-if (array_key_exists("id", $ret))
-    printf("FAILURE: got hash, asked for array by specifying MYSQL_NUM, [%d] %s\n", mysql_errno($con), mysql_error($con));              
+if (array_key_exists('id', $ret)) {
+    printf("FAILURE: got hash, asked for array by specifying MYSQL_NUM, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-if (!array_key_exists(0, $ret))
-    printf("FAILURE: did not get an array, [%d] %s\n", mysql_errno($con), mysql_error($con));              
-    
-if ($ret[0] != 2)
+if (!array_key_exists(0, $ret)) {
+    printf("FAILURE: did not get an array, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if ($ret[0] != 2) {
     printf("FAILURE: expecting 2, '%s' returned [%d] %s\n", $ret[0], mysql_errno($con), mysql_error($con));
+}
 
-    
 $ret = mysql_fetch_array($res, MYSQL_ASSOC);
-if (array_key_exists(0, $ret))
-    printf("FAILURE: got array, asked for hash by specifying MYSQL_ASSOC, [%d] %s\n", mysql_errno($con), mysql_error($con));              
-    
-if (!array_key_exists('id', $ret))
+if (array_key_exists(0, $ret)) {
+    printf("FAILURE: got array, asked for hash by specifying MYSQL_ASSOC, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if (!array_key_exists('id', $ret)) {
     printf("FAILURE: did not get a hash, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if ($ret['id'] != 3)
+}
+
+if ($ret['id'] != 3) {
     printf("FAILURE: expecting 3, '%s' returned [%d] %s\n", $ret[0], mysql_errno($con), mysql_error($con));
-       
+}
 
 $ret = mysql_fetch_array($res, MYSQL_BOTH);
-if (!array_key_exists('id', $ret))
-    printf("FAILURE: asked for MYSQL_BOTH, but seems not to contain the MYSQL_ASSOC values, [%d] %s\n", mysql_errno($con), mysql_error($con));              
-    
-if (!array_key_exists(0, $ret))
-    printf("FAILURE: asked for MYSQL_BOTH, but seems not to contain the MYSQL_ARRAY values, [%d] %s\n", mysql_errno($con), mysql_error($con));              
+if (!array_key_exists('id', $ret)) {
+    printf("FAILURE: asked for MYSQL_BOTH, but seems not to contain the MYSQL_ASSOC values, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-if ($ret['id'] != $ret[0])
-    printf("FAILURE: asked for MYSQL_BOTH, but got something strange, [%d] %s\n", mysql_errno($con), mysql_error($con));              
+if (!array_key_exists(0, $ret)) {
+    printf("FAILURE: asked for MYSQL_BOTH, but seems not to contain the MYSQL_ARRAY values, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if ($ret['id'] != $ret[0]) {
+    printf("FAILURE: asked for MYSQL_BOTH, but got something strange, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 while ($ret = mysql_fetch_array($res))
     ;
 
-if (!is_bool($ret))
-    printf("FAILURE: expecting false because of no more records, got %s value, [%d] %s\n", 
+if (!is_bool($ret)) {
+    printf("FAILURE: expecting false because of no more records, got %s value, [%d] %s\n",
         gettype($ret),
-        mysql_errno($con), mysql_error($con));              
-    
+        mysql_errno($con), mysql_error($con));
+}
+
 $ret = mysql_fetch_array($invalid_link_identifier);
-if (!is_bool($ret))
-    printf("FAILURE: expecting false because of invalid link identifier, got %s value, [%d] %s\n", 
+if (!is_bool($ret)) {
+    printf("FAILURE: expecting false because of invalid link identifier, got %s value, [%d] %s\n",
         gettype($ret),
-        mysql_errno($con), mysql_error($con));              
-        
+        mysql_errno($con), mysql_error($con));
+}
+
 mysql_free_result($res);
 mysql_close($con);
 ?>

@@ -27,62 +27,68 @@ Return Values
 
 Returns a positive MySQL result resource to the query result, or FALSE on error. The function also returns TRUE/FALSE for INSERT/UPDATE/DELETE queries to indicate success/failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (function_exists('mysql_db_query')) {   
-
-    $res = mysql_db_query($db, "SELECT DATABASE() AS db");
-    if (!$res)
-        printf("FAILURE: Cannot run query on default connection, [%d] %s\n", 
+if (function_exists('mysql_db_query')) {
+    $res = mysql_db_query($db, 'SELECT DATABASE() AS db');
+    if (!$res) {
+        printf("FAILURE: Cannot run query on default connection, [%d] %s\n",
             mysql_errno($con), mysql_error($con));
+    }
 
     // mysqli resource is an object 
-    if (!is_resource($res) && !is_bool($res) && !is_object($res))
+    if (!is_resource($res) && !is_bool($res) && !is_object($res)) {
         printf("FAILURE: Function is expected to return resource or boolean value, using default connection, got %s, [%d] %s\n",
-           gettype($res), mysql_errno($con), mysql_error($con)); 
-           
+           gettype($res), mysql_errno($con), mysql_error($con));
+    }
+
     $row = mysql_fetch_assoc($res);
-    if ($row['db'] != $db)
+    if ($row['db'] != $db) {
         printf("FAILURE: Got connected to %s, expected %s using default connection, [%d] %s\n",
-            $row['db'], $db, mysql_errno($con), mysql_error($con)); 
-    
+            $row['db'], $db, mysql_errno($con), mysql_error($con));
+    }
+
     mysql_free_result($res);
-                       
-    $res = mysql_db_query($db, "SELECT DATABASE() AS db", $con);
-    if (!$res)
-        printf("FAILURE: Cannot run query, [%d] %s\n", 
+
+    $res = mysql_db_query($db, 'SELECT DATABASE() AS db', $con);
+    if (!$res) {
+        printf("FAILURE: Cannot run query, [%d] %s\n",
             mysql_errno($con), mysql_error($con));
-    
-    
-    if (!is_resource($res) && !is_bool($res) && !is_object($res))
+    }
+
+    if (!is_resource($res) && !is_bool($res) && !is_object($res)) {
         printf("FAILURE: Function is expected to return resource or boolean value, got %s, [%d] %s\n",
-           gettype($res), mysql_errno($con), mysql_error($con)); 
+           gettype($res), mysql_errno($con), mysql_error($con));
+    }
 
     $row = mysql_fetch_assoc($res);
-    if ($row['db'] != $db)
+    if ($row['db'] != $db) {
         printf("FAILURE: Got connected to %s, expected %s, [%d] %s\n",
-            $row['db'], $db, mysql_errno($con), mysql_error($con));            
-    
-    mysql_free_result($res);       
-    
-    $res = mysql_db_query($db, "SELECT DATABASE() AS db", $illegal_link_identifier);
-        
-    if (!is_resource($res) && !is_bool($res) && !is_object($res))
-        printf("FAILURE: Function is expected to return resource or boolean value, illegal link identifier, got %s, [%d] %s\n",
-           gettype($res), mysql_errno($con), mysql_error($con)); 
+            $row['db'], $db, mysql_errno($con), mysql_error($con));
+    }
 
-    if ($res)
+    mysql_free_result($res);
+
+    $res = mysql_db_query($db, 'SELECT DATABASE() AS db', $illegal_link_identifier);
+
+    if (!is_resource($res) && !is_bool($res) && !is_object($res)) {
+        printf("FAILURE: Function is expected to return resource or boolean value, illegal link identifier, got %s, [%d] %s\n",
+           gettype($res), mysql_errno($con), mysql_error($con));
+    }
+
+    if ($res) {
         printf("FAILURE: Function is expected to return false, illegal link identifier, [%d] %s\n",
-            mysql_errno($con), mysql_error($con)); 
-    
-    mysql_free_result($res);       
+            mysql_errno($con), mysql_error($con));
+    }
+
+    mysql_free_result($res);
 }
 
 mysql_close($con);

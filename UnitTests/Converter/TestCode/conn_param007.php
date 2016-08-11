@@ -23,35 +23,38 @@ Returns a string with the status for uptime, threads, queries, open tables, flus
 
 NOTE: DOCUMENTATION IS WRONG - returns NULL instead of FALSE
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-    
-$stat_default   = mysql_stat();
-$stat_con       = mysql_stat($con);
-if ('' == $stat_default || '' == $stat_con)
+$stat_default = mysql_stat();
+$stat_con = mysql_stat($con);
+if ('' == $stat_default || '' == $stat_con) {
     printf("FAILURE: got empty strings for mysql_stat()\n");
+}
 
-if (!is_string($stat_con))
+if (!is_string($stat_con)) {
     printf("FAILURE: string value expected, got %s value\n", gettype($stat_con));
+}
 
 $stat_con = mysql_stat($illegal_link_identifier);
-if (!is_null($stat_con))
+if (!is_null($stat_con)) {
     printf("FAILURE: NULL value expected because of illegal identifier, got %s value\n", gettype($stat_con));
+}
 
-if ($stat_con)
+if ($stat_con) {
     printf("FAILURE: false expected\n");
-    
-    
+}
+
 mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--

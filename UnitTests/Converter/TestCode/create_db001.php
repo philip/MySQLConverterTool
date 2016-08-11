@@ -24,55 +24,62 @@ Return Values
 
 Returns TRUE on success or FALSE on failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
 if (function_exists('mysql_create_db')) {
-
-    $test_db_name = "__converter_test_create_db";
+    $test_db_name = '__converter_test_create_db';
     $ret = mysql_create_db($test_db_name, $con);
-    if (!is_bool($ret))
+    if (!is_bool($ret)) {
         printf("FAILURE: boolean return value expected, got %s\n", gettype($ret));
+    }
 
-    if (!$ret)
-        printf("FAILURE: failed to create test database, check your setup! FAILURE: [%d] %s\n", 
+    if (!$ret) {
+        printf("FAILURE: failed to create test database, check your setup! FAILURE: [%d] %s\n",
             mysql_errno($con), mysql_error($con));
-    
-    if (!mysql_query("DROP DATABASE " . $test_db_name, $con))
-        printf("FAILURE: cannot drop test database '%s', check your setup! FAILURE: [%d] %s\n", 
+    }
+
+    if (!mysql_query('DROP DATABASE '.$test_db_name, $con)) {
+        printf("FAILURE: cannot drop test database '%s', check your setup! FAILURE: [%d] %s\n",
             $test_db_name, mysql_errno($con), mysql_error($con));
+    }
 
     $ret = mysql_create_db($test_db_name);
-    if (!$ret)
-        printf("FAILURE: failed to create test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n", 
+    if (!$ret) {
+        printf("FAILURE: failed to create test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n",
             $test_db_name, mysql_errno($con), mysql_error($con));
+    }
 
-    if (!mysql_query("DROP DATABASE " . $test_db_name))
-        printf("FAILURE: cannot drop test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n", 
+    if (!mysql_query('DROP DATABASE '.$test_db_name)) {
+        printf("FAILURE: cannot drop test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n",
             $test_db_name, mysql_errno($con), mysql_error($con));
+    }
 
-    if (!defined('CREATE_DB_DATABASE'))
+    if (!defined('CREATE_DB_DATABASE')) {
         define('CREATE_DB_DATABASE', $test_db_name);
-                    
-    $ret = mysql_create_db(CREATE_DB_DATABASE);
-    if (!$ret)
-        printf("FAILURE [CREATE_DB_DATABASE]: failed to create test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n", 
-            CREATE_DB_DATABASE, mysql_errno($con), mysql_error($con));
+    }
 
-    if (!mysql_query("DROP DATABASE " . CREATE_DB_DATABASE))
-        printf("FAILURE [CREATE_DB_DATABASE]: cannot drop test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n", 
-            CREATE_DB_DATABASE, mysql_errno($con), mysql_error($con));            
-    
+    $ret = mysql_create_db(CREATE_DB_DATABASE);
+    if (!$ret) {
+        printf("FAILURE [CREATE_DB_DATABASE]: failed to create test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n",
+            CREATE_DB_DATABASE, mysql_errno($con), mysql_error($con));
+    }
+
+    if (!mysql_query('DROP DATABASE '.CREATE_DB_DATABASE)) {
+        printf("FAILURE [CREATE_DB_DATABASE]: cannot drop test database '%s' using the default connection, check your setup! FAILURE: [%d] %s\n",
+            CREATE_DB_DATABASE, mysql_errno($con), mysql_error($con));
+    }
 
     $ret = mysql_create_db($test_db_name, $illegal_link_identifier);
-    if (!is_bool($ret))
-        printf("FAILURE: boolean return value expected because of illegal link identifier, got %s\n", gettype($ret));    
+    if (!is_bool($ret)) {
+        printf("FAILURE: boolean return value expected because of illegal link identifier, got %s\n", gettype($ret));
+    }
 }
 
 mysql_close($con);

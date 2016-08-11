@@ -30,72 +30,82 @@ cost too much performance to convert the call to ((is_null($__f = func())) ? fal
 
 NOTE: /* {{{ proto object mysql_fetch_object(resource result [, string class_name [, NULL|array ctor_params]]) 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
+}
 
-if (!mysql_query("DELETE FROM nobody", $con))
+if (!mysql_query('DELETE FROM nobody', $con)) {
     printf("FAILURE: cannot clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con))
+}
+
+if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con)) {
     printf("FAILURE: insert records into table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-    
-if (!($res = mysql_query("SELECT id, msg FROM nobody ORDER BY id ASC", $con))) 
+}
+
+if (!($res = mysql_query('SELECT id, msg FROM nobody ORDER BY id ASC', $con))) {
     printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 $obj = mysql_fetch_object($res);
-if (!is_object($obj)) 
+if (!is_object($obj)) {
     printf("FAILURE: expecting object, got %s value, [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
-    
-if ($obj->msg != 'one')
-    printf("FAILURE: expecting property 'msg' to have the value 'one', got '%s', [%d] %s\n", 
+}
+
+if ($obj->msg != 'one') {
+    printf("FAILURE: expecting property 'msg' to have the value 'one', got '%s', [%d] %s\n",
         $obj->msg,
-        mysql_errno($con), mysql_error($con));    
-        
+        mysql_errno($con), mysql_error($con));
+}
 
 if (!class_exists('foo')) {
-    class foo {
-        var $classname;
-        function foo($classname) {
+    class foo
+    {
+        public $classname;
+        public function foo($classname)
+        {
             $this->classname = $classname;
         }
     }
 }
-    
-$obj = mysql_fetch_object($res, 'foo');
-if (get_class($obj) != 'foo')
-    printf("FAILURE: expecting object of class 'foo', got object of class '%s', [%d] %s\n", 
-        get_class($obj),
-        mysql_errno($con), mysql_error($con));    
 
-$obj = mysql_fetch_object($res, 'foo', array('bar'));        
-if ($obj->classname != 'bar')
+$obj = mysql_fetch_object($res, 'foo');
+if (get_class($obj) != 'foo') {
+    printf("FAILURE: expecting object of class 'foo', got object of class '%s', [%d] %s\n",
+        get_class($obj),
+        mysql_errno($con), mysql_error($con));
+}
+
+$obj = mysql_fetch_object($res, 'foo', array('bar'));
+if ($obj->classname != 'bar') {
     printf("FAILURE: passing parameters to the custom class did not work,  [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 while ($obj = mysql_fetch_object($res))
     ;
 
-if (!is_bool($obj))
+if (!is_bool($obj)) {
     printf("FAILURE: expecting boolean value because of empty result set, got %s value  [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
-    
-$obj = mysql_fetch_object($illegal_result_identifier);
-if (!is_bool($obj))
-    printf("FAILURE: expecting boolean value because of invalid result identifier, got %s value  [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
-    
-if ($obj)
-    printf("FAILURE: expecting false, [%d] %s\n", mysql_errno($con), mysql_error($con));    
+}
 
-    
+$obj = mysql_fetch_object($illegal_result_identifier);
+if (!is_bool($obj)) {
+    printf("FAILURE: expecting boolean value because of invalid result identifier, got %s value  [%d] %s\n", gettype($obj), mysql_errno($con), mysql_error($con));
+}
+
+if ($obj) {
+    printf("FAILURE: expecting false, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
 mysql_free_result($res);
 mysql_close($con);
 ?>

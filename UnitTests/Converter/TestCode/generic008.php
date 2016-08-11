@@ -27,46 +27,52 @@ return types between ext/mysql (false) and ext/mysqli (NULL) in case of an error
 cost too much performance to convert the call to ((is_null($__f = func())) ? false : $__f).
 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
+}
 
-if (!mysql_query("DELETE FROM nobody", $con))
+if (!mysql_query('DELETE FROM nobody', $con)) {
     printf("FAILURE: cannot clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con))
+}
+
+if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con)) {
     printf("FAILURE: insert records into table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-    
-if (!($res = mysql_query("SELECT id, msg FROM nobody ORDER BY id ASC", $con))) 
+}
+
+if (!($res = mysql_query('SELECT id, msg FROM nobody ORDER BY id ASC', $con))) {
     printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
-        
+}
 
 $num = mysql_num_rows($res);
-if (!is_int($num))
+if (!is_int($num)) {
     printf("FAILURE: expecting integer value, got %s value, [%d] %s\n", gettype($num), mysql_errno($con), mysql_error($con));
-    
-if ($num != 4)
+}
+
+if ($num != 4) {
     printf("FAILURE: expecting 4 fields, got %d, [%d] %s\n", $num, mysql_errno($con), mysql_error($con));
-    
-$num = mysql_num_rows($illegal_result_identifier);    
-if (!is_bool($num))
+}
+
+$num = mysql_num_rows($illegal_result_identifier);
+if (!is_bool($num)) {
     printf("FAILURE: expecting boolean value, got %s value, [%d] %s\n", gettype($num), mysql_errno($con), mysql_error($con));
-    
-if ($num)
+}
+
+if ($num) {
     printf("FAILURE: expecting false, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+}
+
 mysql_free_result($res);
-mysql_close($con);    
+mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--
 SUCCESS: connect

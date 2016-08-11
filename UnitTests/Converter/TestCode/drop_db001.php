@@ -24,55 +24,62 @@ Return Values
 
 Returns TRUE on success or FALSE on failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (function_exists('mysql_drop_db')) {   
+if (function_exists('mysql_drop_db')) {
+    $test_db_name = '__converter_test_create_db';
 
-    $test_db_name = "__converter_test_create_db";
-    
-    $ret = mysql_create_db($test_db_name, $con);    
-    if (!$ret)
-        printf("FAILURE: failed to create test database [1], check your setup! FAILURE: [%d] %s\n", 
+    $ret = mysql_create_db($test_db_name, $con);
+    if (!$ret) {
+        printf("FAILURE: failed to create test database [1], check your setup! FAILURE: [%d] %s\n",
             mysql_errno($con), mysql_error($con));
+    }
 
     $ret = mysql_drop_db($test_db_name, $con);
-    if (!is_bool($ret))
-        printf("FAILURE: mysql_drop_db(name, con) did not return boolean value, got %s, [%d] %s\n", 
+    if (!is_bool($ret)) {
+        printf("FAILURE: mysql_drop_db(name, con) did not return boolean value, got %s, [%d] %s\n",
             gettype($ret), mysql_errno($con), mysql_error($con));
-    
-    if (!$ret)
+    }
+
+    if (!$ret) {
         printf("FAILURE: mysql_drop_db(name, con) failed, [%d] %s\n",
             mysql_errno($con), mysql_error($con));
+    }
 
-    $ret = mysql_create_db($test_db_name);    
-    if (!$ret)
-        printf("FAILURE: failed to create test database [2], check your setup! FAILURE: [%d] %s\n", 
+    $ret = mysql_create_db($test_db_name);
+    if (!$ret) {
+        printf("FAILURE: failed to create test database [2], check your setup! FAILURE: [%d] %s\n",
             mysql_errno($con), mysql_error($con));
+    }
 
     $ret = mysql_drop_db($test_db_name);
-    if (!is_bool($ret))
-        printf("FAILURE: mysql_drop_db(name) did not return boolean value, got %s, [%d] %s\n", 
+    if (!is_bool($ret)) {
+        printf("FAILURE: mysql_drop_db(name) did not return boolean value, got %s, [%d] %s\n",
             gettype($ret), mysql_errno($con), mysql_error($con));
-    
-    if (!$ret)
+    }
+
+    if (!$ret) {
         printf("FAILURE: mysql_drop_db(name) failed, [%d] %s\n",
-            mysql_errno($con), mysql_error($con));            
-            
+            mysql_errno($con), mysql_error($con));
+    }
+
     $ret = mysql_drop_db($test_db_name, $illegal_link_identifier);
-    if (!is_bool($ret))
-        printf("FAILURE: mysql_drop_db(name, illegal link identifier) did not return boolean value, got %s, [%d] %s\n", 
+    if (!is_bool($ret)) {
+        printf("FAILURE: mysql_drop_db(name, illegal link identifier) did not return boolean value, got %s, [%d] %s\n",
             gettype($ret), mysql_errno($con), mysql_error($con));
-    
-    if ($ret)
+    }
+
+    if ($ret) {
         printf("FAILURE: mysql_drop_db(name, illegal link identifier) failed, [%d] %s\n",
-            mysql_errno($con), mysql_error($con));                                
+            mysql_errno($con), mysql_error($con));
+    }
 }
 
 mysql_close($con);

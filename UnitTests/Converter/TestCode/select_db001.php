@@ -24,74 +24,89 @@ Return Values
 
 Returns TRUE on success or FALSE on failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
-        
-if (!($res = mysql_query("SELECT database() as db", $con)))
-    printf("FAILURE: cannot run SELECT, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if (!($row = mysql_fetch_assoc($res)))
-    printf("FAILURE: cannot fetch record, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if ($row["db"] != $db)
-    printf("FAILURE: select_db() did not switch the DB, should be connected to DB %s, are connected to %s,  [%d] %s\n", $db, $row['db'], mysql_errno($con), mysql_error($con));
-    
-mysql_free_result($res);    
+}
 
-if (!mysql_select_db($db))
+if (!($res = mysql_query('SELECT database() as db', $con))) {
+    printf("FAILURE: cannot run SELECT, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if (!($row = mysql_fetch_assoc($res))) {
+    printf("FAILURE: cannot fetch record, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if ($row['db'] != $db) {
+    printf("FAILURE: select_db() did not switch the DB, should be connected to DB %s, are connected to %s,  [%d] %s\n", $db, $row['db'], mysql_errno($con), mysql_error($con));
+}
+
+mysql_free_result($res);
+
+if (!mysql_select_db($db)) {
     printf("FAILURE: cannot select db (default connection) '%s', [%d] %s\n",
         $db, mysql_errno(), mysql_error());
-        
-if (!($res = mysql_query("SELECT database() as db", $con)))
+}
+
+if (!($res = mysql_query('SELECT database() as db', $con))) {
     printf("FAILURE: cannot run SELECT (default connection), [%d] %s\n", mysql_errno(), mysql_error());
-    
-if (!($row = mysql_fetch_assoc($res)))
+}
+
+if (!($row = mysql_fetch_assoc($res))) {
     printf("FAILURE: cannot fetch record (default connection), [%d] %s\n", mysql_errno(), mysql_error());
-    
-if ($row["db"] != $db)
+}
+
+if ($row['db'] != $db) {
     printf("FAILURE: select_db() did not switch the DB (default connection), should be connected to DB %s, are connected to %s,  [%d] %s\n", $db, $row['db'], mysql_errno(), mysql_error());
-    
+}
+
 mysql_free_result($res);
 
-if (!defined('SELECT_DB_DATABASE'))
+if (!defined('SELECT_DB_DATABASE')) {
     define('SELECT_DB_DATABASE', $db);
-    
-if (!mysql_select_db(SELECT_DB_DATABASE))
+}
+
+if (!mysql_select_db(SELECT_DB_DATABASE)) {
     printf("FAILURE [SELECT_DB_DATABASE]: cannot select db (default connection) '%s', [%d] %s\n",
         SELECT_DB_DATABASE, mysql_errno(), mysql_error());
-        
-if (!($res = mysql_query("SELECT database() as db", $con)))
+}
+
+if (!($res = mysql_query('SELECT database() as db', $con))) {
     printf("FAILURE [SELECT_DB_DATABASE]: cannot run SELECT (default connection), [%d] %s\n", mysql_errno(), mysql_error());
-    
-if (!($row = mysql_fetch_assoc($res)))
+}
+
+if (!($row = mysql_fetch_assoc($res))) {
     printf("FAILURE [SELECT_DB_DATABASE]: cannot fetch record (default connection), [%d] %s\n", mysql_errno(), mysql_error());
-    
-if ($row["db"] != SELECT_DB_DATABASE)
+}
+
+if ($row['db'] != SELECT_DB_DATABASE) {
     printf("FAILURE [SELECT_DB_DATABASE]: select_db() did not switch the DB (default connection), should be connected to DB %s, are connected to %s,  [%d] %s\n", SELECT_DB_DATABASE, $row['db'], mysql_errno(), mysql_error());
-    
+}
+
 mysql_free_result($res);
 
-
 $res = mysql_select_db($db, $illegal_link_identifier);
-if (!is_bool($res))
+if (!is_bool($res)) {
     printf("FAILURE: expecting boolean value, got %s value\n", gettype($res));
-    
-if ($res)
+}
+
+if ($res) {
     printf("FAILURE: expecting false because of illegal link\n");
+}
 
 $res = mysql_select_db('this_database_does_never_ever_exist_27278kajha', $con);
-if ($res)
+if ($res) {
     printf("FAILURE: expecting false because of unknown database\n");
+}
 
 mysql_close($con);
 ?>

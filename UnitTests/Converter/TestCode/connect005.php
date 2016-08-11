@@ -2,7 +2,7 @@
 SUCCESS: mysql_connect with flags
 --FILE--
 <?php
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 mysql_connect($host, $user, $pass, MYSQL_CLIENT_COMPRESS);
 mysql_close();

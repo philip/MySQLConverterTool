@@ -2,14 +2,14 @@
 SUCCESS: Simple mysql_connect - host, user, pass given, host with port
 --FILE--
 <?php
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 // Converter should extract the port
-$con    = mysql_connect('127.0.0.1:3306', $user, $pass);
+$con = mysql_connect('127.0.0.1:3306', $user, $pass);
 if (!$con) {
     printf("[connect_1] Failure: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "[connect_1] Success\n";
+    echo "[connect_1] Success\n";
 }
 mysql_close($con);
 ?>

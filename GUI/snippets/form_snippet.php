@@ -1,17 +1,18 @@
 <?PHP
 /**
-* GUI Template: convert code snippet form
+* GUI Template: convert code snippet form.
 *
 * @category   GUI
-* @package    MySQLConverterTool
+*
 * @author     Andrey Hristov <andrey@php.net>, Ulf Wendel <ulf.wendel@phpdoc.de>
 * @copyright  1997-2006 The PHP Group
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+*
 * @version    CVS: $Id:$, Release: @package_version@
+*
 * @link       http://www.mysql.com
 * @since      Available since Release 1.0
 */
-
 ?>
 <div class="maintextbox">
     Convert a snippet
@@ -24,21 +25,22 @@
 </div>
 <?PHP
 if (!empty($snippet_errors)) {
-?>
+    ?>
 <div class="maintextbox">
     <h2>Errors</h2>    
     <ul>
     <?PHP
-    foreach ($snippet_errors as $field => $msg)
+    foreach ($snippet_errors as $field => $msg) {
         printf('<li class="error">%s</li>', htmlspecialchars($msg));
-    ?>
+    } ?>
     </ul>    
 </div>            
 <?php
+
 }
 ?>  
 <div class="maintextbox">    
-<form action="<?php print $_SERVER['PHP_SELF']; ?>" name="snippet" id="snippet" method="post">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="snippet" id="snippet" method="post">
     <script language="JavaScript">
         
         function activate_backup() {                     
@@ -68,8 +70,8 @@ if (!empty($snippet_errors)) {
         <br />
         <table align="right">        
         <tr>
-            <td class="<?php print isset($snippet_errors['snippet']) ? 'formlabelerror' : 'formlabel'; ?>">Snippet</td>
-            <td class="formelement"><textarea name="snippet" cols="40" rows="10"><?php print (isset($_POST['snippet'])) ? $_POST['snippet'] : ''; ?></textarea></td>
+            <td class="<?php echo isset($snippet_errors['snippet']) ? 'formlabelerror' : 'formlabel'; ?>">Snippet</td>
+            <td class="formelement"><textarea name="snippet" cols="40" rows="10"><?php echo (isset($_POST['snippet'])) ? $_POST['snippet'] : ''; ?></textarea></td>
         </tr>        
         <tr>
             <td></td>

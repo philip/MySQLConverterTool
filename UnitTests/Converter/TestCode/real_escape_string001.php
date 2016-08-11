@@ -29,26 +29,29 @@ Return Values
 Returns the escaped string, or FALSE on error.
 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
-        
+}
+
 $escaped = mysql_real_escape_string("Let's escape this");
-if ($escaped !== "Let\'s escape this") 
+if ($escaped !== "Let\'s escape this") {
     printf("FAILURE: escape with default connection did not work, [%d] %s\n", mysql_errno(), mysql_error());
+}
 
 $escaped = mysql_real_escape_string("Let's escape this", $con);
-if ($escaped !== "Let\'s escape this") 
-    printf("FAILURE: escape did not work, [%d] %s\n", mysql_errno($con), mysql_error($con));       
+if ($escaped !== "Let\'s escape this") {
+    printf("FAILURE: escape did not work, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
 mysql_close($con);
 ?>

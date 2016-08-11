@@ -27,58 +27,62 @@ NOTE: This function gets called too frequently, we did not take care of the diff
 return types between ext/mysql (false) and ext/mysqli (NULL) in case of an error. It would
 cost too much performance to convert the call to ((is_null($__f = func())) ? false : $__f).
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
+}
 
-if (!mysql_query("DELETE FROM nobody", $con))
+if (!mysql_query('DELETE FROM nobody', $con)) {
     printf("FAILURE: cannot clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con))
+}
+
+if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')", $con)) {
     printf("FAILURE: insert records into table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-    
-if (!($res = mysql_query("SELECT id, msg FROM nobody ORDER BY id ASC", $con))) 
+}
+
+if (!($res = mysql_query('SELECT id, msg FROM nobody ORDER BY id ASC', $con))) {
     printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
 
-    
 $ret = mysql_fetch_assoc($res);
-if (!is_array($ret))
-    printf("FAILURE: expecting array value, got %s value, [%d] %s\n", 
-        gettype($ret), mysql_errno($con), mysql_error($con));     
-   
-if (!array_key_exists('id', $ret))
-    printf("FAILURE: did not get a hash, [%d] %s\n", mysql_errno($con), mysql_error($con));
+if (!is_array($ret)) {
+    printf("FAILURE: expecting array value, got %s value, [%d] %s\n",
+        gettype($ret), mysql_errno($con), mysql_error($con));
+}
 
-if ($ret['id'] != 1)
-    printf("FAILURE: values don't match, [%d] %s\n", mysql_errno($con), mysql_error($con));              
-   
-    
+if (!array_key_exists('id', $ret)) {
+    printf("FAILURE: did not get a hash, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+if ($ret['id'] != 1) {
+    printf("FAILURE: values don't match, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
 while ($ret = mysql_fetch_assoc($res))
     ;
 
-if (!is_bool($ret))
-    printf("FAILURE: expecting false because no more records can be fetched, got %s value, [%d] %s\n", 
+if (!is_bool($ret)) {
+    printf("FAILURE: expecting false because no more records can be fetched, got %s value, [%d] %s\n",
         gettype($ret),
-        mysql_errno($con), mysql_error($con));              
+        mysql_errno($con), mysql_error($con));
+}
 
-        
-$ret = mysql_fetch_assoc($invalid_link_identifier); 
-if (!is_bool($ret))
-    printf("FAILURE: expecting false because of invalid link identifier, got %s value, [%d] %s\n", 
+$ret = mysql_fetch_assoc($invalid_link_identifier);
+if (!is_bool($ret)) {
+    printf("FAILURE: expecting false because of invalid link identifier, got %s value, [%d] %s\n",
         gettype($ret),
-        mysql_errno($con), mysql_error($con));              
-    
- 
+        mysql_errno($con), mysql_error($con));
+}
+
 mysql_free_result($res);
 mysql_close($con);
 ?>

@@ -21,42 +21,48 @@ Return Values
 
 Returns information about the statement on success, or FALSE on failure. See the example below for which statements provide information, and what the returned value may look like. Statements that are not listed will return FALSE. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
-    printf("FAILURE: could not select database %s, [%d] %s\n", $db, mysql_errno($con), mysql_error($con));   
-    
-if (!mysql_query('DELETE FROM nobody', $con))
-    printf("FAILURE: could not clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));   
-    
-$res = mysql_query('INSERT INTO nobody(id, msg) VALUES (1, "mysql_info()"), (2, "mysqli_info()")', $con);
-if (!$res)
-    printf("FAILURE: insert failed, [%d] %s\n", mysql_errno($con), mysql_error($con));
+if (!mysql_select_db($db, $con)) {
+    printf("FAILURE: could not select database %s, [%d] %s\n", $db, mysql_errno($con), mysql_error($con));
+}
 
-$info_default  = mysql_info();
-$info_con      = mysql_info($con);
+if (!mysql_query('DELETE FROM nobody', $con)) {
+    printf("FAILURE: could not clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+$res = mysql_query('INSERT INTO nobody(id, msg) VALUES (1, "mysql_info()"), (2, "mysqli_info()")', $con);
+if (!$res) {
+    printf("FAILURE: insert failed, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+$info_default = mysql_info();
+$info_con = mysql_info($con);
 if ($info_con != $info_default) {
     printf("FAILURE: info of default connection and specified connection differ\n");
 }
 
-if (!is_string($info_con))
+if (!is_string($info_con)) {
     printf("FAILURE: function should have returned a string, got %s value\n", gettype($info_con));
-    
+}
+
 var_dump($info_con);
 
 $info_con = mysql_info($illegal_link_identifier);
-if (!is_null($info_con))
+if (!is_null($info_con)) {
     printf("FAILURE: function should have returned a NULL value, got %s value\n", gettype($info_con));
+}
 
-if ($info_con)
+if ($info_con) {
     printf("FAILURE: function should have failed with illegal link identifier\n");
+}
 
 mysql_close($con);
 ?>

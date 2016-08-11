@@ -21,31 +21,34 @@ Return Values
 
 Returns a string describing the type of MySQL connection in use for the connection or FALSE on failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-$host_info_default  = mysql_get_host_info();
-$host_info_con      = mysql_get_host_info($con);
+$host_info_default = mysql_get_host_info();
+$host_info_con = mysql_get_host_info($con);
 if ($host_info_con != $host_info_default) {
     printf("FAILURE: host info of default connection and specified connection differ\n");
 }
 
-if (!is_string($host_info_con))
+if (!is_string($host_info_con)) {
     printf("FAILURE: function should have returned a string\n");
+}
 
 $host_info_con = mysql_get_host_info($illegal_link_identifier);
-if (!is_bool($host_info_con))
+if (!is_bool($host_info_con)) {
     printf("FAILURE: function should have returned a boolean value, got %s value\n", gettype($host_info_con));
+}
 
-if ($host_info_con)
+if ($host_info_con) {
     printf("FAILURE: function should have failed with illegal link identifier\n");
-    
+}
+
 mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--

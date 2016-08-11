@@ -2,14 +2,15 @@
 FAILURE: Simple mysql_connect - host, user, pass given, new connection requested, relying on same connection for same params
 --FILE--
 <?php
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
 $con1 = mysql_pconnect($host, $user, $pass);
-$con2 = mysql_connect($host, $user, $pass, true);    
-if ($con1 === $con2)
+$con2 = mysql_connect($host, $user, $pass, true);
+if ($con1 === $con2) {
     print "FAILURE: new connection requested but got existing one!\n";
-else 
+} else {
     print "SUCCESS: new connection created\n";
+}
 
 // should close $con2
 mysql_close($con2);

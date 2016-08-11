@@ -23,37 +23,41 @@ Return Values
 
 Returns TRUE on success or FALSE on failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
 $ret = mysql_close($con);
-if (!is_bool($ret))
+if (!is_bool($ret)) {
     print "FAILURE: mysql_close(con) is supposed to return a boolean value\n";
-   
-$con    = mysql_connect($host, $user, $pass);
+}
+
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
 $ret = mysql_close();
-if (!is_bool($ret))
+if (!is_bool($ret)) {
     printf("FAILURE: mysql_close() is supposed to return a boolean value, got %s\n", gettype($ret));
-    
-$ret = mysql_close($invalid_link_identifier);
-if (!is_bool($ret))
-    printf("FAILURE: mysql_close() is supposed to return a boolean value, got %s\n", gettype($ret));
+}
 
-if ($ret) 
+$ret = mysql_close($invalid_link_identifier);
+if (!is_bool($ret)) {
+    printf("FAILURE: mysql_close() is supposed to return a boolean value, got %s\n", gettype($ret));
+}
+
+if ($ret) {
     print "FAILURE: mysql_cose(invalid_link_identifier) should bail\n";
-   
+}
+
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--
 SUCCESS: connect

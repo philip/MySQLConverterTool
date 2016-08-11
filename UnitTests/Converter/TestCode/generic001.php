@@ -26,59 +26,68 @@ Return Values
 
 Returns TRUE on success or FALSE on failure. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
-if (!mysql_select_db($db, $con))
+if (!mysql_select_db($db, $con)) {
     printf("FAILURE: cannot select db '%s', [%d] %s\n",
         $db, mysql_errno($con), mysql_error($con));
+}
 
-if (!mysql_query("DELETE FROM nobody", $con))
+if (!mysql_query('DELETE FROM nobody', $con)) {
     printf("FAILURE: cannot clear table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three')", $con))
+}
+
+if (!mysql_query("INSERT INTO nobody(id, msg) VALUES (1, 'one'), (2, 'two'), (3, 'three')", $con)) {
     printf("FAILURE: insert records into table nobody, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
-    
-if (!($res = mysql_query("SELECT id, msg FROM nobody ORDER BY id ASC", $con))) 
+}
+
+if (!($res = mysql_query('SELECT id, msg FROM nobody ORDER BY id ASC', $con))) {
     printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
-    
+}
+
 $jumps = array(2 => 'three', 0 => 'one', 1 => 'two');
 foreach ($jumps as $offset => $sql_value) {
     $ret = mysql_data_seek($res, $offset);
-    
-    if (!is_bool($ret))
+
+    if (!is_bool($ret)) {
         printf("FAILURE: seek() did not return boolean value, got %s value\n", gettype($ret));
+    }
 
     $row = mysql_fetch_assoc($res);
-    if ($row['msg'] != $sql_value)
-        printf("FAILURE: expecting '%s', got '%s'\n", $sql_value, $row['msg']);  
+    if ($row['msg'] != $sql_value) {
+        printf("FAILURE: expecting '%s', got '%s'\n", $sql_value, $row['msg']);
+    }
 }
 
 $row = mysql_fetch_assoc($res);
-if ($row['msg'] != 'three')
-    printf("FAILURE: expecting 'three', got '%s'\n", $row['msg']);  
+if ($row['msg'] != 'three') {
+    printf("FAILURE: expecting 'three', got '%s'\n", $row['msg']);
+}
 
 $ret = mysql_data_seek($res, 99);
-if ($ret)
+if ($ret) {
     printf("FAILURE: expecting false\n");
-    
-mysql_free_result($res);    
-    
-if (!($res = mysql_query("SELECT id, msg FROM nobody WHERE 1 = 2", $con))) 
-    printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
-  
-$ret = mysql_data_seek($res, 0);   
-if ($ret)
-    printf("FAILURE: expecting false and E_WARNING\n");
+}
 
-mysql_free_result($res);        
+mysql_free_result($res);
+
+if (!($res = mysql_query('SELECT id, msg FROM nobody WHERE 1 = 2', $con))) {
+    printf("FAILURE: cannot fetch records, [%d] %s\n", mysql_errno($con), mysql_error($con));
+}
+
+$ret = mysql_data_seek($res, 0);
+if ($ret) {
+    printf("FAILURE: expecting false and E_WARNING\n");
+}
+
+mysql_free_result($res);
 mysql_close($con);
 ?>
 --EXPECT-EXT/MYSQL-OUTPUT--

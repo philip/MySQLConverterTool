@@ -1,23 +1,24 @@
 <?PHP
 /**
-* GUI index page
+* GUI index page.
 *
 * @category   GUI
-* @package    MySQLConverterTool
+*
 * @author     Andrey Hristov <andrey@php.net>, Ulf Wendel <ulf.wendel@phpdoc.de>
 * @copyright  1997-2006 The PHP Group
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+*
 * @version    CVS: $Id:$, Release: @package_version@
+*
 * @link       http://www.mysql.com
 * @since      Available since Release 1.0
 */
-
-require_once('snippets/MySQLConverterTool_GUI_Snippets.php');
+require_once 'snippets/MySQLConverterTool_GUI_Snippets.php';
 
 $snippet_title = 'Welcome to the MySQL ext/mysql Converter Tool';
 $snippet_greeting = 'Welcome to the MySQL ext/mysql Converter Tool';
 
-MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__) . '/snippets/header.php');
+MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__).'/snippets/header.php');
 ?>
 <div class="maintextbox">
     You have successfully installed the MySQL ext/mysql Converter Tool.
@@ -42,5 +43,5 @@ MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__) . '/snippets/header.php'
     Use this to convert a snippet, a piece of PHP code.
 </div>    
 <?php
-MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__) . '/snippets/footer.php');
+MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__).'/snippets/footer.php');
 ?>

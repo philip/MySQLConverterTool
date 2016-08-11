@@ -23,30 +23,34 @@ Return Values
 
 Returns the error number from the last MySQL function, or 0 (zero) if no error occurred. 
 */
-require('MySQLConverterTool/UnitTests/Converter/TestCode/config.php');
+require 'MySQLConverterTool/UnitTests/Converter/TestCode/config.php';
 
-$con    = mysql_connect($host, $user, $pass);
+$con = mysql_connect($host, $user, $pass);
 if (!$con) {
     printf("FAILURE: [%d] %s\n", mysql_errno(), mysql_error());
 } else {
-    print "SUCCESS: connect\n";
+    echo "SUCCESS: connect\n";
 }
 
 $errno = mysql_errno($con);
-if (!is_int($errno))
-    printf("FAILURE: expecting integer value, using regular connection, got %s\n", gettype($errno));    
-    
+if (!is_int($errno)) {
+    printf("FAILURE: expecting integer value, using regular connection, got %s\n", gettype($errno));
+}
+
 // should throw a warning    
 $errno = mysql_errno();
-if (!is_int($errno))
-    printf("FAILURE: expecting integer value, using default connection, got %s\n", gettype($errno));        
-    
-$errno = mysql_error($illegal_link_identifier);
-if (!is_bool($errno))
-    printf("FAILURE: expecting boolean value, using illegal link identifier, got %s\n", gettype($errno));
+if (!is_int($errno)) {
+    printf("FAILURE: expecting integer value, using default connection, got %s\n", gettype($errno));
+}
 
-if ($errno)
-    printf("FAILURE: expecting false, using illegal link identifier, got %s\n", $errno);     
+$errno = mysql_error($illegal_link_identifier);
+if (!is_bool($errno)) {
+    printf("FAILURE: expecting boolean value, using illegal link identifier, got %s\n", gettype($errno));
+}
+
+if ($errno) {
+    printf("FAILURE: expecting false, using illegal link identifier, got %s\n", $errno);
+}
 
 mysql_close($con);
 ?>
