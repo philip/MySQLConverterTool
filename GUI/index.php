@@ -15,7 +15,7 @@
 require_once('snippets/MySQLConverterTool_GUI_Snippets.php');
 
 $snippet_title = 'Welcome to the MySQL ext/mysql Converter Tool';
-$snippet_greeting = 'Welcome to the MySQL ext/mysq Converter Tool';
+$snippet_greeting = 'Welcome to the MySQL ext/mysql Converter Tool';
 
 MySQLConverterTool_GUI_Snippets::load(dirname(__FILE__) . '/snippets/header.php');
 ?>
