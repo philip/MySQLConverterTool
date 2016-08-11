@@ -31,18 +31,19 @@ your existing scripts from the old MySQL extension to the new MySQLi extension.
 <p>
 The tool uses a simple approach to map mysql_*-functions to their mysqli_*-counterparts. 
 All mysql_*-functions can be converted automatically. The generated code will run out of 
-the box. However, the tool does not take context and runtime informationn into account 
+the box. However, the tool does not take context and runtime information into account 
 when it does the conversion. This can lead to situations where the tool is not sure if the 
 generated code is semantically identical to the original code in all ways. If this happens, 
 a warning will the thrown and you will be requested to check the automatically generated tool
 </p>
 <p>
 The tool has been originally developed by MySQL AB. It is released under the terms of the 
-<a href="http://www.php.net/license/3_0.txt">PHP Licence 3.0</a>.
+<a href="http://www.php.net/license/3_0.txt">PHP Licence 3.0</a>. It is no longer maintained
+by MySQL, but lives on as a public github repository.
 </p>
 <h3>Where can I get more information?</h3>
 <p>
-Plase consult the <a href="forge.mysql.com/Wiki/">MySQL Forge Wiki</a> for additional information.
+Please consult the <a href="https://github.com/philip/MySQLConverterTool/wiki">wiki</a> for additional information.
 </p>
 <h3>What cannot be converted automatically?</h3>
 <p>
@@ -50,14 +51,21 @@ Use the function MySQLConvertTool_Converter::getUnsupportedFunctions() to get a 
 functions which cannot be converted automatically. Currently, the tool does not support 
 the conversion of the following, rarely used functions:
 <ul>
-    <li>mysql_result()</li>
+    <li>mysql_result() -- Note: it converts to mysqli_result() and suggests a mysqli_result() userland definition, 
+        as the mysqli extension does not have a true alternative to mysql_result().</li>
     <li>mysql_fetch_field2()</li>
 </ul>
 All other mysql_*-functions can be converted automatically.
 </p>
+<h3>What else does this do that might affect me?</h3>
+<ul>
+    <li>All functions are converted to lowercase</li>
+    <li>If your PHP version has short tags disabled, code using short tags will be skipped. 
+        This is a limitation of the tokenizer extension</li>
+</ul>
 <h3>What is considered to be a warning?</h3>
 <p>
-The converter tool works stateless. It does not take any context or runtime information into account. 
+The converter tool works stateless. It does not take any context or runtime information into account.
 It does nothing but analyze existing mysql_*-functions and tries to translate them into their 
 mysqli_*-counterparts. Most expressions can be translated into semantically identical expressions
 using this approach. But there are limits. Whenever such a limit gets hit, the tool throws
