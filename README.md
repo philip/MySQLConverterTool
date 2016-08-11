@@ -26,7 +26,10 @@ Execute `php cli.php -h` to see the available options.
 # Important Warning
 That absolutely NO security checks are performed by the tool which prevent users from trying to read and convert files (e.g. `/etc/passwd`). Make sure to add security measures, if needed.
 
-# Other  
+# Additional Documentation
+See the [wiki](https://github.com/philip/MySQLConverterTool/wiki) for additional information, including screenshots. 
+
+# Other 
 If you want to run any tests, check the hints given in `UnitTests/README`. Also, report bugs and feature requests here.
 
 Have fun!
