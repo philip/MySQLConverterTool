@@ -29,6 +29,9 @@ That absolutely NO security checks are performed by the tool which prevent users
 # Additional Documentation
 See the [wiki](https://github.com/philip/MySQLConverterTool/wiki) for additional information, including screenshots. 
 
+# Limitations
+With `short-open-tag` disabled, short tags (<? and <?=) are essentially ignored due to how the `tokenizer` extension works. So, if you use the likes of <? (instead of <?php) then enable `short-open-tag` before executing the conversion otherwise that PHP code will be ignored (not converted). For details, see issue [#16](https://github.com/philip/MySQLConverterTool/issues/16).
+
 # Other 
 If you want to run any tests, check the hints given in `UnitTests/README`. Also, report bugs and feature requests here.
 
