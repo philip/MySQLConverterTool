@@ -48,10 +48,10 @@ class MySQLConverterTool_Function_Result extends MySQLConverterTool_Function_Gen
             mysqli_data_seek($result, $number);
             $type = is_numeric($field) ? MYSQLI_NUM : MYSQLI_ASSOC;
             $out = mysqli_fetch_array($result, $type);
-            if ($out === NULL || $out === FALSE) {
+            if ($out === NULL || $out === FALSE || (!isset($out[$field]))) {
                 return FALSE;
             }
-            return $out;
+            return $out[$field];
         }
         ';
     }
