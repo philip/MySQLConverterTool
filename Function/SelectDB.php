@@ -18,7 +18,7 @@ require_once 'Generic.php';
  */
 class MySQLConverterTool_Function_SelectDB extends MySQLConverterTool_Function_Generic
 {
-    public $new_name = 'mysqli_select_db';
+    public $new_name = 'mysqli_query';
 
     public function __construct()
     {
@@ -41,17 +41,16 @@ class MySQLConverterTool_Function_SelectDB extends MySQLConverterTool_Function_G
 
         list($db, $db_type) = $this->extractValueAndType(trim($db));
         if ('const' == $db_type) {
-            $ret = sprintf('mysqli_select_db(%s, constant(\'%s\'))', $conn, $db);
+            $ret = sprintf('((bool)mysqli_query(%s, "USE " . constant(\'%s\')))', $conn, $db);
         } else {
-            $ret = sprintf('mysqli_select_db(%s, %s)', $conn, $db);
+            $ret = sprintf('((bool)mysqli_query(%s, "USE " . %s))', $conn, $db);
         }
-        
-        return array('', $ret);
+
+        return array('mysql_select_db(string database_name [...]) is emulated using mysqli_query() and USE database_name. This is a possible SQL injection security bug as no tests are performed what value database_name has. Check your script!', $ret);
     }
-    
-    
-    function getConversionHint() {
-        
-        return 'Converted to mysqli_select_db().';
+
+    public function getConversionHint()
+    {
+        return 'Emulated using mysqli_query() and USE.';
     }
 }
