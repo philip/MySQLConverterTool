@@ -32,6 +32,11 @@ See the [wiki](https://github.com/philip/MySQLConverterTool/wiki) for additional
 # Limitations
 With `short-open-tag` disabled, short tags (<? and <?=) are essentially ignored due to how the `tokenizer` extension works. So, if you use the likes of <? (instead of <?php) then enable `short-open-tag` before executing the conversion otherwise that PHP code will be ignored (not converted). For details, see issue [#16](https://github.com/philip/MySQLConverterTool/issues/16).
 
+# Alternatives
+The [php7-mysql-shim](https://github.com/dshafik/php7-mysql-shim) PHP library defines all mysql_ functions for you, so simply include it (a single PHP file) and your code should work without a need to convert. It uses ext/mysqli and requires PHP 5.6+ or greater. There are pros and cons to each approach.
+
+Also, consider refactoring your code. Whether you convert your code with MySQLConverterTool or define ext/mysql functions using a library such as php7-mysql-shim, these are considered stop-gap measures until you rewrite your code. For example, your new code will probably use prepared statements.
+
 # Other 
 If you want to run any tests, check the hints given in `UnitTests/README`. Also, report bugs and feature requests here.
 
