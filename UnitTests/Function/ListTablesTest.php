@@ -50,7 +50,7 @@ class MySQLConverterTool_UnitTests_Function_ListTablesTest extends MySQLConverte
         list($warning, $code) = $this->gen->handle($this->buildParams(array('"<database>"')));
         $this->assertNotNull($warning);
         $this->assertEquals(
-            sprintf('%s(%s, "SHOW TABLES FROM <database>")', $this->gen->new_name, $this->default_conn),
+            sprintf('%s(%s, "SHOW TABLES FROM `<database>`")', $this->gen->new_name, $this->default_conn),
             $code
         );
 
@@ -66,7 +66,7 @@ class MySQLConverterTool_UnitTests_Function_ListTablesTest extends MySQLConverte
         list($warning, $code) = $this->gen->handle($this->buildParams(array('$<database>', '<link_identifier>')));
         $this->assertNotNull($warning);
         $this->assertEquals(
-            sprintf('%s(<link_identifier>, "SHOW TABLES FROM $<database>")', $this->gen->new_name),
+            sprintf('%s(<link_identifier>, "SHOW TABLES FROM `$<database>`")', $this->gen->new_name),
             $code
         );
 

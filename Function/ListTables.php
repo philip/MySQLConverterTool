@@ -43,10 +43,10 @@ class MySQLConverterTool_Function_ListTables extends MySQLConverterTool_Function
         if ('const' == $db_type) {
             $ret = sprintf('mysqli_query(%s, "SHOW TABLES FROM " . constant(\'%s\'))', $conn, $db);
         } else {
-            $ret = sprintf('mysqli_query(%s, "SHOW TABLES FROM %s")', $conn, $db);
+            $ret = sprintf('mysqli_query(%s, "SHOW TABLES FROM `%s`")', $conn, $db);
         }
 
-        return array('mysql_list_tables(string database_name [...]) is emulated using mysqli_query() and SHOW TABLES FROM database_name. This is a possible SQL injection security bug as no tests are performed what value database_name has. Check your script!', $ret);
+        return array('mysql_list_tables(string database_name [...]) is emulated using mysqli_query() and SHOW TABLES FROM `database_name`. This is a possible SQL injection security bug as no tests are performed what value database_name has. Check your script!', $ret);
     }
 
     public function getConversionHint()
