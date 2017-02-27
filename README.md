@@ -1,7 +1,9 @@
 # Introduction
-This tool converts the deprecated (and removed as of PHP 7) ext/mysql extension into code using the newer (and fully supported) ext/mysqli extension.
+The old MySQL extension (`ext/mysql`) was deprecated in PHP 5.5 and removed in PHP 7.0.
 
-This tool is not perfect, but it will help you with the conversion.
+This tool converts `ext/mysql` code to `ext/mysqli` code, as `ext/mysqli` is the current MySQL extension. There's also `PDO_MySQL` but this tool does not use that. This tool is not perfect but will help with the conversion.
+
+> **Alternatively**, a quicker and simpler short-term fix is to use a bundled native PHP library such as [php7-mysql-shim](https://github.com/dshafik/php7-mysql-shim). Instead of converting code (e.g., `mysql_connect()` to `mysqli_connect()`) it uses `ext/mysqli` to define `ext/mysql` functions in PHP. Much easier but more of a short-term fix. Although `php7-mysql-shim` contains PHP 7 in the name, it works with older PHP versions but only if `ext/mysql` is not installed on your system.
 
 # Usage
 There are two interfaces: GUI and CLI. Example usages:
@@ -16,7 +18,7 @@ $ php -S localhost:8000
 Then, go to `http://localhost:8000`. From there you can choose to convert a snippet (copy-n-paste), a single file, or a directory. You can choose to convert the files themselves (assuming the web server has rights), make backups, or simply output the code to your browser.
 
 ### Use CLI
-Download as you did above, and here is an example to convert a file named `/tmp/my.php`
+Download as you did above, and here is an example to convert a file named `/tmp/my.php` 
 ```
 $ cd MySQLConverterTool-master
 $ php cli.php -f /tmp/my.php
