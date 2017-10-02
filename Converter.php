@@ -361,15 +361,11 @@ class MySQLConverterTool_Converter
         // like MYSQL_RESULT => mysql_result
         // But this can be dangerous because of possible unwanted constants conversions
         // To be safe we convert only supported names
-        $list = array_map(function ($val) { return '/\b'.$val.'\b/i';},
-                          array_keys($this->mysql_funcs));
-
-        $code = preg_replace_callback($list,
-            function ($match) {
-                return strtolower($match[0]);
-            }, $source);
-
-        return $code;
+        foreach ($this->mysql_funcs as $func_name => $val) {
+            $patterns[]     = '#\b'. $func_name . '\b#i';
+            $replacements[] = strtolower($func_name);
+        }
+        return preg_replace($patterns, $replacements, $source);
     }
 
     /**
