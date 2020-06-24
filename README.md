@@ -35,7 +35,19 @@ See the [wiki](https://github.com/philip/MySQLConverterTool/wiki) for additional
 # Limitations
 With `short-open-tag` disabled, short tags (<? and <?=) are essentially ignored due to how the `tokenizer` extension works. So, if you use the likes of <? (instead of <?php) then enable `short-open-tag` before executing the conversion otherwise that PHP code will be ignored (not converted). For details, see issue [#16](https://github.com/philip/MySQLConverterTool/issues/16). 
 
-Also, a `mysql_result` equivelant does not exist in `ext/mysqli` so you must define `mysqli_result`. The tool does suggest code for this but it does not insert this definition into your converted markup.
+Also, a `mysql_result` equivelant does not exist in `ext/mysqli` so you must define `mysqli_result`. The tool does suggest code for this but it does not insert this definition into your converted markup:
+
+```php
+function mysqli_result($result, $number, $field=0) {
+    mysqli_data_seek($result, $number);
+    $type = is_numeric($field) ? MYSQLI_NUM : MYSQLI_ASSOC;
+    $out = mysqli_fetch_array($result, $type);
+    if ($out === NULL || $out === FALSE || (!isset($out[$field]))) {
+        return FALSE;
+    }
+    return $out[$field];
+}
+```
 
 # Alternatives
 The [php7-mysql-shim](https://github.com/dshafik/php7-mysql-shim) PHP library defines all mysql_ functions for you, so simply include it (a single PHP file) and your code should work without a need to convert. It uses ext/mysqli and works fine in PHP 5.3 or greater. There are pros and cons to each approach.
