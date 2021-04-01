@@ -394,7 +394,7 @@ class MySQLConverterTool_Converter
             }
             if ($this->skip_pattern !== false) {
                 if ($this->skip_pattern === '.') {
-                    if ($file{0} === '.') {
+                    if ($file[0] === '.') {
                         continue;
                     }
                 } else {
@@ -495,7 +495,9 @@ class MySQLConverterTool_Converter
         // flag for something that looks like a mysql_func call but is not followed by parameters
         $expect_param_brace_open = false;
 
-        while (list(, $token) = each($this->tokens)) {
+        while (null !== key($this->tokens)) {
+            $token = current($this->tokens);
+            next($this->tokens);
             if (is_string($token)) {
                 $id = T_SIMPLE_TOKEN;
                 $token_name = 'T_SIMPLE_TOKEN';
@@ -809,7 +811,7 @@ class MySQLConverterTool_Converter
                         }
 
                         while ($prev_steps--) {
-                            each($this->tokens);
+                            next($this->tokens);
                         }
                     }
                 }
