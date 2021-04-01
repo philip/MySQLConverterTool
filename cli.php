@@ -41,12 +41,14 @@ function parseOptions($argc, $argv)
     // skip $argv[0] - program name
     next($argv);
 
-    while (list($k, $arg) = each($argv)) {
-        $arg = trim($arg);
+    while ($k = key($argv)) {
+        $arg = trim(current($argv));
+        next($argv);
         switch ($arg) {
             case '-f':
-                if (list($k, $arg) = each($argv)) {
-                    $arg = trim($arg);
+                if ($k = key($argv)) {
+                    $arg = trim(current($argv));
+                    next($argv);
                     if (substr($arg, 0, 1) == '-') {
                         $error = '-f needs a file name';
                         break 2;
@@ -69,8 +71,9 @@ function parseOptions($argc, $argv)
                 break;
 
             case '-d':
-                if (list($k, $arg) = each($argv)) {
-                    $arg = trim($arg);
+                if ($k = key($argv)) {
+                    $arg = trim(current($argv));
+                    next($argv);
                     if (substr($arg, 0, 1) == '-') {
                         $error = '-d needs a directory name';
                         break 2;
@@ -93,8 +96,9 @@ function parseOptions($argc, $argv)
                 break;
 
             case '-s':
-                if (list($k, $arg) = each($argv)) {
-                    $arg = trim($arg);
+                if ($k = key($argv)) {
+                    $arg = trim(current($argv));
+                    next($argv);
                     if ('' == $arg) {
                         $error = '-s expects a code snippet to follow the option';
                         break 2;
@@ -140,8 +144,9 @@ function parseOptions($argc, $argv)
                 break;
 
             case '-p':
-                if (list($k, $arg) = each($argv)) {
-                    $arg = trim($arg);
+                if ($k = key($argv)) {
+                    $arg = trim(current($argv));
+                    next($argv);
                     if ('' == $arg) {
                         $error = '-p needs a search pattern';
                         break 2;
