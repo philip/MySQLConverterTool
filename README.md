@@ -1,9 +1,16 @@
 # Introduction
+
+This project has, essentially, been abondoned. Do consider an alternative described below.
+
 The old MySQL extension (`ext/mysql`) was deprecated in PHP 5.5 and removed in PHP 7.0.
 
 This tool converts `ext/mysql` code to `ext/mysqli` code, as `ext/mysqli` is the current MySQL extension. There's also `PDO_MySQL` but this tool does not use that. This tool is not perfect but will help with the conversion.
 
-> **Alternatively**, a quicker and simpler short-term fix is to use a bundled native PHP library such as [php7-mysql-shim](https://github.com/dshafik/php7-mysql-shim). Instead of converting code (e.g., `mysql_connect()` to `mysqli_connect()`) it uses `ext/mysqli` to define `ext/mysql` functions in PHP. Much easier but more of a short-term fix. Although `php7-mysql-shim` contains PHP 7 in the name, it works with older PHP versions but only if `ext/mysql` is not installed on your system.
+# Alternatives
+
+**Library**: A quicker and simpler short-term fix is to use a bundled native PHP library such as [php7-mysql-shim](https://github.com/dshafik/php7-mysql-shim). Instead of converting code (e.g., `mysql_connect()` to `mysqli_connect()`) it uses `ext/mysqli` to define `ext/mysql` functions in PHP. Much easier but more of a short-term fix. Although `php7-mysql-shim` contains PHP 7 in the name, it works with older PHP versions but only if `ext/mysql` is not installed on your system.
+
+**Convertor**: The [Rector](https://github.com/rectorphp/rector/) tool is popular and maintained; and it includes tools to convert ext/mysql code to ext/mysqli code. See its [mysqltomysqli rules](https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#mysqltomysqli).
 
 # Usage
 There are two interfaces: GUI and CLI. Example usages:
